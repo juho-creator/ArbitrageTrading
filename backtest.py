@@ -9,16 +9,16 @@ transactions_df = pd.DataFrame(columns=columns)
 
 def record_transaction(timestamp, transaction_type, balance, crypto_value, gimp):
     global transactions_df
-    transactions_df = transactions_df.append({
-        'timestamp': timestamp,
-        'type': transaction_type,
-        'balance': balance,
-        'crypto_value': crypto_value,
-        'gimp': gimp
-    }, ignore_index=True)
+    transactions_df = pd.concat([transactions_df, pd.DataFrame({
+        'timestamp': [timestamp],
+        'type': [transaction_type],
+        'balance': [balance],
+        'crypto_value': [crypto_value],
+        'gimp': [gimp]
+    })], ignore_index=True)
 
 # Set initial balance and currency values
-balance = 1000
+balance = 10*8   # 1억
 currency = 1300
 symbol = "BTC"
 
