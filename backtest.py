@@ -89,5 +89,25 @@ def get_binance_candlestick_data(symbol, interval, start_date, end_date):
 
     csvfile.close()
 
-# Example usage:
-# get_binance_candlestick_data(symbol="BTCUSDT", interval="1d", start_date="1 Jan, 2020", end_date="31 Oct 2023")
+
+
+
+
+
+# Sample initial values
+balance = 1000
+currency = "USD"
+symbol_upbit = "XRP"
+symbol_binance = "BTCUSDT"
+interval_binance = "1d"
+start_date = "2023-01-01"
+end_date = "2023-12-31"
+delay = 5  # in seconds
+
+# Call Upbit function
+get_upbit_candlestick(symbol_upbit, "minutes/1", start_date, end_date)
+
+# Call Binance function
+get_binance_candlestick_data(symbol_binance, interval_binance, start_date, end_date)
+
+ 
