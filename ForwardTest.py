@@ -1,13 +1,13 @@
 import pandas as pd
-from Layer1_API import kimpga,get_currency
+from module import *
 import time
 import requests
+import msvcrt
+import datetime
 
 # Initialize a dataframe to keep track of transactions
-columns = ['timestamp', 'kimp', 'exchange', 'type', 'crypto_price', 'balance']
+columns = ['timestamp', 'kimp', 'exchange', 'type', 'price', 'balance']
 transactions_df = pd.DataFrame(columns=columns)
-
-
 
 
 
@@ -29,58 +29,87 @@ def record_transaction(timestamp, kimp, exchange, transaction_type, crypto_price
     transactions_df = pd.concat([transactions_df, new_row], ignore_index=True)
 
 
-def forwardtest(balance, currency, symbol, delay):
+def forwardtest(balance, currency, symbol, delay,current_cash_location):
     # Get initial price difference across exchanges using the kimpga function
-    kimp, binance, upbit = kimpga(symbol,currency)
+    print("__INITIAL STATE__")
+    kimp, binance, upbit = current_kimpga(symbol,currency)
     
     # Record initial state
-    record_transaction(time.time(), kimp, 'Initial', binance, upbit, balance)
+    record_transaction(datetime.datetime.now().strftime('%Y-%m-%d %X'), kimp, 'Initial', binance, upbit, balance)
+    print(datetime.datetime.now().strftime('%Y-%m-%d %X'), kimp, 'Initial', round(binance*currency,2), round(upbit,2), balance)
 
-    # If KIMP (Binance -> Upbit)
-    if kimp:
-        # Refresh price for Binance
-        binance_url = f"https://api.binance.com/api/v3/ticker/price?symbol={symbol}USDT"
-        binance_response = requests.get(binance_url)
-        binance = float(binance_response.json()["price"])
+    while(1):
+        # Keep checking Kimp
+        kimp, binance, upbit = current_kimpga(symbol,currency)
+        print(datetime.datetime.now().strftime('%Y-%m-%d %X'), kimp, 'current', round(binance*currency,2), round(upbit,2), round(balance,2))
 
-        # Buy at Binance
-        balance -= binance * currency
-        record_transaction(time.time(), 1, 'Binance', 'buy', binance, balance)
 
-        # Crypto transfer delay
-        time.sleep(delay)
+        # If KIMP (Binance -> Upbit)
+        if kimp and current_cash_location == "binance":
+            print("\n__KIMP TRANSACTION__")
+            # Refresh price for Binance
+            binance = binance_price(symbol)
 
-        # Refresh price for Upbit
-        upbit_url = f"https://api.upbit.com/v1/ticker?markets=KRW-{symbol}"
-        upbit_response = requests.get(upbit_url)
-        upbit = float(upbit_response.json()[0]["trade_price"])
+            # Buy at Binance
+            balance -= binance * currency
+            record_transaction(datetime.datetime.now().strftime('%Y-%m-%d %X'), 1, 'Binance', 'buy', binance, balance)
+            print(datetime.datetime.now().strftime('%Y-%m-%d %X'), 1, 'Binance', 'buy', round(binance*currency,2), round(balance,2))
 
-        # Sell at Upbit
-        balance += upbit
-        record_transaction(time.time(), 1, 'Upbit', 'sell', upbit, balance)
+            # Crypto transfer delay
+            print(f"Transfering {symbol} (Binance -> Upbit)...")
+            time.sleep(delay)
 
-    # If ReverseKIMP (Upbit -> Binance)
-    elif not(kimp):
-        # Refresh price for Upbit
-        upbit_url = f"https://api.upbit.com/v1/ticker?markets=KRW-{symbol}"
-        upbit_response = requests.get(upbit_url)
-        upbit = float(upbit_response.json()[0]["trade_price"])
+            # Refresh price for Upbit
+            upbit = upbit_price(symbol)
 
-        # Buy at Upbit
-        balance -= upbit
-        record_transaction(time.time(), 0, 'Upbit', 'buy', upbit, balance)
+            # Sell at Upbit
+            balance += upbit
+            record_transaction(datetime.datetime.now().strftime('%Y-%m-%d %X'), 1, 'Upbit', 'sell', upbit, balance)
+            print(datetime.datetime.now().strftime('%Y-%m-%d %X'), 1, 'Upbit', 'sell', round(upbit,2), round(balance,2))
 
-        # Crypto transfer delay
-        time.sleep(10)
+            # Update cash location 
+            current_cash_location = "upbit"
+            print(f"Cash deposited at {current_cash_location}")
 
-        # Refresh price for Binance
-        binance_url = f"https://api.binance.com/api/v3/ticker/price?symbol={symbol}USDT"
-        binance_response = requests.get(binance_url)
-        binance = float(binance_response.json()["price"])
+        # If ReverseKIMP (Upbit -> Binance)
+        elif not(kimp) and current_cash_location == "upbit":
+            print("\n__INV KIMP TRANSACTION__")
+            # Refresh price for Upbit
+            upbit = upbit_price(symbol)
 
-        # Sell at Binance
-        balance += binance * currency
-        record_transaction(time.time(), 0, 'Binance', 'sell', binance, balance)
+
+            # Buy at Upbit
+            balance -= upbit
+            record_transaction(datetime.datetime.now().strftime('%Y-%m-%d %X'), 0, 'Upbit', 'buy', round(upbit,2), round(balance,2))
+            print(datetime.datetime.now().strftime('%Y-%m-%d %X'), 0, 'Upbit', 'buy', round(upbit,2), round(balance,2))
+
+            # Crypto transfer delay
+            print(f"Transfering {symbol} (Binance -> Upbit)...")
+            time.sleep(10)
+
+            # Refresh price for Binance
+            binance = binance_price(symbol)
+
+
+            # Sell at Binance
+            balance += binance * currency
+            record_transaction(datetime.datetime.now().strftime('%Y-%m-%d %X'), 0, 'Binance', 'sell', binance, balance)
+            print(datetime.datetime.now().strftime('%Y-%m-%d %X'), 0, 'Binance', 'sell', round(binance * currency,2), round(balance,2))
+
+
+            # Update cash location 
+            current_cash_location = "binance"
+            print(f"Cash deposited at {current_cash_location}")
+
+        
+        # Check for 'c' key press to break out of the loop
+        if msvcrt.kbhit():
+            key = msvcrt.getch()
+            if key == b'c':
+                break
+
+
+    print("Forward Testing paused")
 
     # Save transactions to CSV
     transactions_df.to_csv('transactions.csv', index=False)
@@ -88,18 +117,21 @@ def forwardtest(balance, currency, symbol, delay):
     # Print success message
     print("Transactions recorded successfully.")
 
+
+
+
+
+# ### Test Settings
 # Set initial balance and currency values
-balance = 1000
+current_cash_location = "binance"
+balance = 10000
 currency = get_currency("USD")
 symbol = "XRP"
 delay = 20
 
 
-
-
-
-
+# Forward Test
 import time
 start_time = time.time()
-forwardtest(balance, currency, symbol, delay)
+forwardtest(balance, currency, symbol, delay, current_cash_location)
 print("--- %s seconds ---" % (time.time() - start_time))
