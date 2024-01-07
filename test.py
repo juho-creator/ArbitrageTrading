@@ -1,37 +1,41 @@
-from config import *
-import jwt
-import hashlib
-import os
-import requests
-import uuid
-from urllib.parse import urlencode, unquote
-from pprint import pprint
+# while(1):
+#     try:
+#         print("Wali")
+#     except Exception as e:
+#         print("fuck!")   
+#     else:
+#         print("No Error")
+#     finally:
+#         print("Code executed")
 
-access_key = ACCESS_KEY
-secret_key = SECRET_KEY
-server_url = 'https://api.upbit.com/v1/deposit'
 
-params = {
-  'uuid': '689321e7-5de1-4099-b1b5-33ac9527fb64'
-}
-query_string = unquote(urlencode(params, doseq=True)).encode("utf-8")
+import pyttsx3
+engine = pyttsx3.init() # object creation
 
-m = hashlib.sha512()
-m.update(query_string)
-query_hash = m.hexdigest()
+""" RATE"""
+rate = engine.getProperty('rate')   # getting details of current speaking rate
+print (rate)                        #printing current voice rate
+engine.setProperty('rate', 125)     # setting up new voice rate
 
-payload = {
-    'access_key': access_key,
-    'nonce': str(uuid.uuid4()),
-    'query_hash': query_hash,
-    'query_hash_alg': 'SHA512',
-}
 
-jwt_token = jwt.encode(payload, secret_key)
-authorization = 'Bearer {}'.format(jwt_token)
-headers = {
-  'Authorization': authorization,
-}
+"""VOLUME"""
+volume = engine.getProperty('volume')   #getting to know current volume level (min=0 and max=1)
+print (volume)                          #printing current volume level
+engine.setProperty('volume',1.0)    # setting up volume level  between 0 and 1
 
-res = requests.get(server_url, params=params, headers=headers)
-pprint(res.json())
+"""VOICE"""
+voices = engine.getProperty('voices')       #getting details of current voice
+engine.setProperty('voice', voices[1].id)   #changing index, changes voices. 1 for female
+
+
+import time
+
+while(1):
+    start_time = time.time()
+
+    engine.say('reverse order filled')
+    engine.say('kimp order filled')
+    print("--- %s seconds ---" % (time.time() - start_time))
+
+
+
