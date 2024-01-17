@@ -17,16 +17,23 @@ Every attempt you've failed will all make sense and guide you.
 DO NOT EVER GIVE UP.
 
 
-# Life Goals </br>
+# Life Goals 
 ### After earning $100k
 - [ ] Hosting $10K family trip to a wonderful place for healing
 - [ ] Get new electronic devices
-- [ ] Buy new clothes </br>
+- [ ] Buy new clothes
+</br>
+
 ### After earning $1M
 - [ ] Living in suburban area
-- [ ] Starting a business with chong chong </br>
+- [ ] Starting a business with chong chong
+
+</br>
+
 ### After earning $10M
 - [ ] Buying a house in California
+</br>
+</br>
 
 
 
