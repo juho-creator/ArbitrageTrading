@@ -17,8 +17,7 @@ Every attempt you've failed will all make sense and guide you.
 DO NOT EVER GIVE UP.
 
 
-# Life Goals
-</br>
+# Life Goals </br>
 ### After earning $100k
 - [ ] Hosting $10K family trip to a wonderful place for healing
 - [ ] Get new electronic devices
