@@ -22,6 +22,7 @@ DO NOT EVER GIVE UP.
 - [ ] Hosting $10K family trip to a wonderful place for healing
 - [ ] Get new electronic devices
 - [ ] Buy new clothes
+</br> **RECREATE REPOSITORY WITH CODE ENCRYPTED WITH KLEOPATRA**
 </br>
 
 ### After earning $1M
