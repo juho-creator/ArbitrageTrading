@@ -17,6 +17,16 @@ Every attempt you've failed will all make sense and guide you.
 DO NOT EVER GIVE UP.
 
 
+# Life Goals
+### After earning $100k
+[ ] Hosting $10K family trip to a wonderful place for healing
+[ ] Get new electronic devices
+[ ] Buy new clothes
+
+### After earning $1000k
+[ ] Starting a business with chong chong
+
+
 ## Technology used
 - **main.py** : Arbitrage Trading Strategies
   - Spatial arbitrage (Transferring between exchanges)
