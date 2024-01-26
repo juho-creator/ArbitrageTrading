@@ -420,9 +420,7 @@ def current_kimpga_test(exchange_buy,exchange_sell, symbol, currency):
 
 ###### CHECKING LIQUDITY ##########
 def checkLiquidity(symbol, exchange="upbit"):    
-    if exchange == "upbit":   
-        codes = [f"KRW-{symbol}", f"BTC-{symbol}", "KRW-BTC"]
-        
+    if exchange == "upbit":          
         url = f"https://api.upbit.com/v1/ticker?markets=KRW-{symbol}&markets=BTC-{symbol}&markets=KRW-BTC"
         response = requests.get(url)
         data = response.json()
