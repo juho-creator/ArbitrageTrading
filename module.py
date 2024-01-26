@@ -419,33 +419,25 @@ def current_kimpga_test(exchange_buy,exchange_sell, symbol, currency):
 
 
 ###### CHECKING LIQUDITY ##########
-
-def checkLiquidity(symbol, exchange="upbit"):
-    total_liquidity = 0
-    
+def checkLiquidity(symbol, exchange="upbit"):    
     if exchange == "upbit":   
         codes = [f"KRW-{symbol}", f"BTC-{symbol}", "KRW-BTC"]
         
-        for code in codes: 
-            url = f"https://api.upbit.com/v1/ticker?markets={code}"
-            response = requests.get(url)
-            data = response.json()[0]
-            
-            if code == f"BTC-{symbol}":
-                BTC = upbit_price("KRW-BTC")
-                BTC_liquidity = data['acc_trade_price_24h']
-                crypto_liquidity = BTC_liquidity * BTC
-                
-                print(code, f"{BTC_liquidity:,.0f} * {BTC:,.0f} = {crypto_liquidity:,.0f}")
-                total_liquidity += crypto_liquidity
-            else:
-                formatted_liquidity = "{:,.0f}".format(data["acc_trade_price_24h"])
-                print(code, formatted_liquidity)
-                total_liquidity += float(data["acc_trade_price_24h"])
-
-        return total_liquidity / 3
-
-
+        url = f"https://api.upbit.com/v1/ticker?markets=KRW-{symbol}&markets=BTC-{symbol}&markets=KRW-BTC"
+        response = requests.get(url)
+        data = response.json()
+          
+        BTC = upbit_price("KRW-BTC")
+        KRW_CODE = data[0]["acc_trade_price_24h"]
+        BTC_CODE  = data[1]["acc_trade_price_24h"]*BTC
+        KRW_BTC = data[2]["acc_trade_price_24h"]
+        
+        print(data[0]["market"], KRW_CODE)
+        print(data[1]["market"], BTC_CODE)
+        print(data[2]["market"], KRW_BTC)
+        
+        
+        return  (KRW_CODE+BTC_CODE+KRW_BTC)/ 3
 
 
 
@@ -453,19 +445,10 @@ liquidity = {}
 
 cryptos = upbit_ticker_all()
 
-
-
 for crypto in cryptos:
 	try:
-		liquidity[crypto] = checkLiquidity(crypto)
+		liquidity[crypto] = checkLiquidity("EOS")
 	except:
-		print(f"{crypto} : Unable to check liquidity")
-	print()
-sorted_dict = dict(sorted(liquidity.items(), key=lambda item: item[1], reverse=True))
-
-print(sorted_dict)
-
-   
-
+		print(f"{crypto} : Unable to compute liquidity")
 
 
