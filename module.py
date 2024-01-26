@@ -450,5 +450,14 @@ for crypto in cryptos:
 		liquidity[crypto] = checkLiquidity("EOS")
 	except:
 		print(f"{crypto} : Unable to compute liquidity")
+	print()
 
+
+print("Unordered")
+print(liquidity)
+
+print("Ordered")
+sorted_dict = dict(sorted(liquidity.items(), key=lambda item: item[1], reverse=True))
+
+print(sorted_dict)
 
