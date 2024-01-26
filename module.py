@@ -415,6 +415,56 @@ def current_kimpga_test(exchange_buy,exchange_sell, symbol, currency):
             return kimp, buy_price, sell_price  # 김프
         else:
             return kimp, buy_price, sell_price  # 역프
+
+
+
+###### CHECKING LIQUDITY ##########
+
+def checkLiquidity(symbol, exchange="upbit"):
+    total_liquidity = 0
+    
+    if exchange == "upbit":   
+        codes = [f"KRW-{symbol}", f"BTC-{symbol}", "KRW-BTC"]
+        
+        for code in codes: 
+            url = f"https://api.upbit.com/v1/ticker?markets={code}"
+            response = requests.get(url)
+            data = response.json()[0]
+            
+            if code == f"BTC-{symbol}":
+                BTC = upbit_price("KRW-BTC")
+                BTC_liquidity = data['acc_trade_price_24h']
+                crypto_liquidity = BTC_liquidity * BTC
+                
+                print(code, f"{BTC_liquidity:,.0f} * {BTC:,.0f} = {crypto_liquidity:,.0f}")
+                total_liquidity += crypto_liquidity
+            else:
+                formatted_liquidity = "{:,.0f}".format(data["acc_trade_price_24h"])
+                print(code, formatted_liquidity)
+                total_liquidity += float(data["acc_trade_price_24h"])
+
+        return total_liquidity / 3
+
+
+
+
+
+liquidity = {}
+
+cryptos = upbit_ticker_all()
+
+
+
+for crypto in cryptos:
+	try:
+		liquidity[crypto] = checkLiquidity(crypto)
+	except:
+		print(f"{crypto} : Unable to check liquidity")
+	print()
+sorted_dict = dict(sorted(liquidity.items(), key=lambda item: item[1], reverse=True))
+
+print(sorted_dict)
+
    
 
 
