@@ -17,6 +17,16 @@ Every attempt you've failed will all make sense and guide you.
 DO NOT EVER GIVE UP.
 
 
+# REMINDER 
+Due to illiquid market, I faced several issues on orders.
+Following attempts of Triangular Arbitrage were executed on Upbit:
+- [x] Creating Market Orders --> **slippage**
+- [X] Limit Order --> **Order waiting at desired price**
+- [X] Buy/Sell Limit orders each set to ask/bid for instant order
+          -->  **Orders partially filled due to insufficient volume at bid/prices**
+          -->  **Sudden price change created gap between market price and order price**
+
+-
 # Life Goals 
 ### After earning $100k
 - [ ] Hosting $10K family trip to a wonderful place for healing
@@ -50,14 +60,20 @@ DO NOT EVER GIVE UP.
 ## Reference
 **Code**
 - [Upbit API documentation](https://docs.upbit.com/reference/%EC%A0%84%EC%B2%B4-%EA%B3%84%EC%A2%8C-%EC%A1%B0%ED%9A%8C)
+- [pyupbit documentation](https://github.com/sharebook-kr/pyupbit?tab=readme-ov-file)
 - [Binance API documentation](https://binance-docs.github.io/apidocs/spot/en/)
 - [CCXT API documentation](https://docs.ccxt.com)
-- [Use case of Telegram API ](https://charliethewanderer.medium.com/scrape-news-and-corporate-announcements-in-real-time-2-deployment-27ae489f598a)
+- [Use case of Telegram API](https://charliethewanderer.medium.com/scrape-news-and-corporate-announcements-in-real-time-2-deployment-27ae489f598a)
 
-**Theory**
+**Trading Concepts**
 - [Crypto Arbitrage Trade Guide](https://coincodecap.com/crypto-arbitrage-guide-how-to-make-money-as-a-beginner)
 - [김프거래 가이드](https://charlietrip.tistory.com/19)
+- [Triangular Arbitrage](https://www.youtube.com/watch?v=lKu2LAgEcpU)
+- [What is Slippage?](https://www.youtube.com/watch?v=gaVYPGrxykw)
+- [Understanding Orderbooks](https://www.youtube.com/watch?v=Jxyuf-cDKeg)
+- [Who Decides the Prices of Stocks?](https://www.youtube.com/watch?v=HxNH7xi4zq8)
 
 
 **Regulations**
 - [트래블룰](https://upbitcs.zendesk.com/hc/ko/articles/4498679629337-%ED%8A%B8%EB%9E%98%EB%B8%94%EB%A3%B0-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0)
+- [김프차익거래 불법인가?](https://youtube.com/shorts/YF3FK_4NOmM?si=ZgVCQ__LfEPyzb97)
