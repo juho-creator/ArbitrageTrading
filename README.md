@@ -64,7 +64,8 @@ Following attempts of Triangular Arbitrage were executed on Upbit:
 - [Binance API documentation](https://binance-docs.github.io/apidocs/spot/en/)
 - [CCXT API documentation](https://docs.ccxt.com)
 - [Use case of Telegram API](https://charliethewanderer.medium.com/scrape-news-and-corporate-announcements-in-real-time-2-deployment-27ae489f598a)
-
+- [Benchmarking in Python](https://www.youtube.com/watch?v=DBoobQxqiQw)
+  
 **Trading Concepts**
 - [Crypto Arbitrage Trade Guide](https://coincodecap.com/crypto-arbitrage-guide-how-to-make-money-as-a-beginner)
 - [김프거래 가이드](https://charlietrip.tistory.com/19)
