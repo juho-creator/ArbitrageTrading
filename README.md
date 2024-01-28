@@ -28,6 +28,8 @@ Following attempts of Triangular Arbitrage were executed on Upbit:
    - **Orders partially filled due to insufficient volume at bid/prices**
    - **Sudden price change created gap between market price and order price**
 - [ ] Optimize code and eliminate unnecessary API calls (improve runtime)
+- [ ] Take minimum BTC=0.005 into consideration before performing trade
+   - 
 
 
 # Life Goals 
