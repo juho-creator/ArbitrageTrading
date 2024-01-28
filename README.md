@@ -74,10 +74,14 @@ Following attempts of Triangular Arbitrage were executed on Upbit:
 **Trading Concepts**
 - [Crypto Arbitrage Trade Guide](https://coincodecap.com/crypto-arbitrage-guide-how-to-make-money-as-a-beginner)
 - [김프거래 가이드](https://charlietrip.tistory.com/19)
+- 
 - [Triangular Arbitrage](https://www.youtube.com/watch?v=lKu2LAgEcpU)
+- [Why Triangular Arbitrage Works](https://www.youtube.com/clip/UgkxjqQU0dMrhLZH7qmjGzrWW1lKQGeSzllp)
+- 
 - [What is Slippage?](https://www.youtube.com/watch?v=gaVYPGrxykw)
 - [Understanding Orderbooks](https://www.youtube.com/watch?v=Jxyuf-cDKeg)
 - [Who Decides the Prices of Stocks?](https://www.youtube.com/watch?v=HxNH7xi4zq8)
+- [Reading in Depth Chart](https://youtube.com/clip/Ugkx0c5M3OF96EjkuDo8IfXJGjiR6XCdZ8_f?si=jnnrMETCA_Mn0iLC)
 
 
 **Regulations**
