@@ -17,7 +17,7 @@ Every attempt you've failed will all make sense and guide you.
 DO NOT EVER GIVE UP.
 
 
-# REMINDER 
+# Current Progress 
 Due to illiquid market, I faced several issues on orders.
 Following attempts of Triangular Arbitrage were executed on Upbit:
 - [x] Create Market Orders (creating fast orders)
