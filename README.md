@@ -20,13 +20,16 @@ DO NOT EVER GIVE UP.
 # REMINDER 
 Due to illiquid market, I faced several issues on orders.
 Following attempts of Triangular Arbitrage were executed on Upbit:
-- [x] Creating Market Orders --> **slippage**
-- [X] Limit Order --> **Order waiting at desired price**
-- [X] Buy/Sell Limit orders each set to ask/bid for instant order
-          -->  **Orders partially filled due to insufficient volume at bid/prices**
-          -->  **Sudden price change created gap between market price and order price**
+- [x] Create Market Orders (creating fast orders)
+   - **slippage**
+- [X] Create Limit Order (preventing slippage)
+   - **Order waiting at desired price**
+- [X] Buy/Sell Limit orders each set to ask/bid for instant order (fast order at desired price)
+   - **Orders partially filled due to insufficient volume at bid/prices**
+   - **Sudden price change created gap between market price and order price**
+- [ ] Optimize code and eliminate unnecessary API calls (improve runtime)
 
--
+
 # Life Goals 
 ### After earning $100k
 - [ ] Hosting $10K family trip to a wonderful place for healing
