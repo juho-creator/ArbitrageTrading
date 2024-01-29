@@ -1,4 +1,4 @@
-# Arbitrage Trading 
+ㅈㄷㄹ# Arbitrage Trading 
 ## Motivation
 Think about what you really want in life.
 Do you want to wake up every day worrying about your personal finance?
@@ -27,9 +27,24 @@ Following attempts of Triangular Arbitrage were executed on Upbit:
 - [X] Buy/Sell Limit orders each set to ask/bid for instant order (fast order at desired price)
    - **Orders partially filled due to insufficient volume at bid/prices**
    - **Sudden price change created gap between market price and order price**
-- [ ] Optimize code and eliminate unnecessary API calls (improve runtime)
-- [ ] Take minimum BTC=0.005 into consideration before performing trade
-   - 
+- [X] Optimize code and eliminate unnecessary API calls (improve runtime)
+- [X] Take minimum BTC=0.005 into consideration before performing trade
+- [X] Organize the code as a package
+- [ ] Create order when profit >= 0.35%
+- [ ] Reduce API call for limit orders
+
+If all of the above fails, I'll implement the strategy on Binance and Bithumb in hopes of finding triangular arbitrage opportunities.
+- [ ] 
+
+
+Finally as a last resort, we will implement different models of spatial arbitrage on Bithumb and Binance 
+
+
+Following orrder 
+
+
+
+
 
 
 # Life Goals 
