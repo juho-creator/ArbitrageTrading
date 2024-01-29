@@ -20,34 +20,37 @@ DO NOT EVER GIVE UP.
 # Current Progress 
 Due to illiquid market, I faced several issues on orders.
 Following attempts of Triangular Arbitrage were executed on Upbit:
-- [x] Create Market Orders (creating fast orders)
+- [x] Create Market Orders (create fast orders)
    - **slippage**
-- [X] Create Limit Order (preventing slippage)
-   - **Order waiting at desired price**
+- [X] Create Limit Order (prevent slippage)
+   - **Order waiting to be filled at desired price**
 - [X] Buy/Sell Limit orders each set to ask/bid for instant order (fast order at desired price)
    - **Orders partially filled due to insufficient volume at bid/prices**
    - **Sudden price change created gap between market price and order price**
 - [X] Optimize code and eliminate unnecessary API calls (improve runtime)
-- [X] Take minimum BTC=0.005 into consideration before performing trade
-- [X] Organize the code as a package
-- [ ] Create order when profit >= 0.35%
-- [ ] Reduce API call for limit orders
-- [ ] Adjusting bid/ask price level => change sensitivity of order execution
-- [ ] Increase speed for spotting arbitrage opportunities
-- [ ] Only monitor a high volume, volatile crypto currency
+- [X] Take minimum BTC = 0.005 into consideration before performing trade (prevent entry at illiquid price)
+- [X] Organize the code as a package (for code maintenance)
+- [ ] Reduce API call for limit order (improve runtime) 
+- [ ] Create order when profit >= 0.35% (secure profitable trade)
+- [ ] Increase speed for spotting arbitrage opportunities (spot arbitrage opportunity quickly) 
+- [ ] Adjust bid/ask price level (change sensitivity of order execution)
+- [ ] Implement order reminders (More time to work on something else while testing)
+- [ ] Only monitor a high volume, volatile crypto currency (close analysis on trade)
 
-Following attempts of Triangula Arbitrage were executed on Binance: 
+
+</br>
+Following attempts of Triangular Arbitrage were executed on Binance: 
 - [ ] 
 
-
+</br>
 Following attempts of Triangular Arbitrage were executed on Bithumb: 
 - [ ] 
 
 
-Finally as a last resort, we will implement different models of spatial arbitrage on Bithumb and Binance 
+</br>
+Following attempts of spatial arbitrage were executed on Bithumb and Binance 
+- [ ] 
 
-
-Following orrder 
 
 
 
