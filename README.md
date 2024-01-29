@@ -29,6 +29,7 @@ Following attempts of Triangular Arbitrage were executed on Upbit:
    - **Sudden price change created gap between market price and order price**
 - [X] Optimize code and eliminate unnecessary API calls (improve runtime)
 - [X] Take minimum BTC = 0.005 into consideration before performing trade (prevent entry at illiquid price)
+			- **Fes**
 - [X] Organize the code as a package (for code maintenance)
 - [ ] Reduce API call for limit order (improve runtime) 
 - [ ] Create order when profit >= 0.35% (secure profitable trade)
