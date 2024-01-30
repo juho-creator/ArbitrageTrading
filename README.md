@@ -29,14 +29,33 @@ Following attempts of Triangular Arbitrage were executed on Upbit:
    - **Sudden price change created gap between market price and order price**
 - [X] Optimize code and eliminate unnecessary API calls (improve runtime)
 - [X] Take minimum BTC = 0.005 into consideration before performing trade (prevent entry at illiquid price)
-			- **Fes**
 - [X] Organize the code as a package (for code maintenance)
-- [ ] Reduce API call for limit order (improve runtime) 
-- [ ] Create order when profit >= 0.35% (secure profitable trade)
-- [ ] Increase speed for spotting arbitrage opportunities (spot arbitrage opportunity quickly) 
-- [ ] Adjust bid/ask price level (change sensitivity of order execution)
+- [X] Reduce API call for limit order (improve runtime) 
+- [X] Create order when profit >= 0.35% (secure profitable trade)
+- [X] Increase speed for spotting arbitrage opportunities (spot arbitrage opportunity quickly) 
+- [X] Adjust bid/ask price level (change sensitivity of order execution)
+  - **Buy high and sell low --> arbitrage not detected**
 - [ ] Implement order reminders (More time to work on something else while testing)
 - [ ] Only monitor a high volume, volatile crypto currency (close analysis on trade)
+
+
+## Greatest Challenge
+### order speed & order profit tradeoff
+For faster limit order fills, buy/sell orders were implemented at ask/bid prices respectively. 
+However, the since we are buying high and selling low, arbitrage opportunities are not detected.
+
+Since the only illiquid market is BTC_CODE, we could buy/sell at ask/bid and try buy/sell orders at bid/sell on KRW_CODE and KRW_BTC 
+for spotting arbitrage opporunities.
+Problem with this is that we are able to find the opportunities, but it's not guaranteed that order would be filled in volatile markets.
+
+**Solution :**  </br>
+- [ ] Try buy/sell orders at bid/ask price on KRW_CODE and KRW_BTC on liquid market and  buy/sell at ask/bid price for faster execution
+- [ ]  KRW_CODE and KRW_BTC at market price
+- [ ] Less volatile crypto
+
+
+
+
 
 
 </br>
