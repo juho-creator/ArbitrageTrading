@@ -35,7 +35,7 @@ Following attempts of Triangular Arbitrage were executed on Upbit:
 - [X] Increase speed for spotting arbitrage opportunities (spot arbitrage opportunity quickly) 
 - [X] Adjust bid/ask price level (change sensitivity of order execution)
   - **Buy high and sell low --> arbitrage not detected**
-- [ ] Testing one_way() & other_ way() for market & limit orders
+- [ ] Double check if limit/market orders work in both directions
 - [ ] Implement order reminders (More time to work on something else while testing)
 - [ ] Only monitor a high volume, volatile crypto currency (close analysis on trade)
 
