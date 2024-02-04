@@ -1,21 +1,23 @@
 from arbitrage_trading import *
 import time
+import pyttsx3
 
-from elevenlabs import generate, play
 
-audio = generate(
-  text="Hello! 你好! Hola! नमस्ते! Bonjour! こんにちは! مرحبا! 안녕하세요! Ciao! Cześć! Привіт! வணக்கம்!",
-  voice= "Sarah",
-  model="eleven_multilingual_v2"
-)
 
-play(audio)
 
-# start_time = time.time()
+# engine = pyttsx3.init()
+# engine.say("Triangular Arbitrage completed")
+# engine.runAndWait()
 
-# for crypto in available_cryptos:
+
+start_time = time.time()
+
+# cryptos = available_cryptos
+# for crypto in cryptos:
 #     upbit_triangular(crypto)
 
+upbit_triangular("XTZ")
 
-# print("--- %s seconds ---" % (time.time() - start_time))
+
+print("--- %s seconds ---" % (time.time() - start_time))
 

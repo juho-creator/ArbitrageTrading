@@ -125,12 +125,14 @@ def oneway_limit(symbol, KRW_CODE, BTC_CODE, KRW_BTC, KRW):
 
 def one_way(symbol, KRW_CODE="", BTC_CODE="", KRW_BTC="", order_type="limit"):
     KRW = krw_balance()
-    if order_type == "market":
-        oneway_market(symbol, KRW)
-    
-    elif order_type == "limit":
-        oneway_limit(symbol, KRW_CODE, BTC_CODE, KRW_BTC, KRW)
-
+    try:
+        if order_type == "market":
+            oneway_market(symbol, KRW)
+        
+        elif order_type == "limit":
+            oneway_limit(symbol, KRW_CODE, BTC_CODE, KRW_BTC, KRW)
+    except:
+        pass
 
 def otherway_market(symbol,KRW):
     BTC = upbit_buy(f"KRW-BTC", KRW)
@@ -148,66 +150,74 @@ def otherway_limit(symbol, KRW_CODE, BTC_CODE, KRW_BTC, KRW):
 
 def other_way(symbol, KRW_CODE="", BTC_CODE="", KRW_BTC="",order_type="limit"):
     KRW = krw_balance()
-    
-    if order_type == "market":
-        otherway_market(symbol,KRW)
-    elif order_type == "limit":
-        otherway_limit(symbol, KRW_CODE, BTC_CODE, KRW_BTC, KRW)
-
+    try:
+        if order_type == "market":
+            otherway_market(symbol,KRW)
+        elif order_type == "limit":
+            otherway_limit(symbol, KRW_CODE, BTC_CODE, KRW_BTC, KRW)
+    except:
+        pass
 
 #  Looking for Arbitrage opportunities :D
 def get_orderbook_prices(code):
-    url = f"https://api.upbit.com/v1/orderbook?markets=KRW-{code}&markets=BTC-{code}&markets=KRW-BTC"
+    url = f"https://api.upbit.com/v1/orderbook?markets=KRW-{code},BTC-{code},KRW-BTC"
     response = requests.get(url)
     data = response.json()
 
-    KRW_CODE = data[0]["orderbook_units"][0]["bid_price"]
+    KRW_CODE_ASK = data[0]["orderbook_units"][0]["ask_price"]
+    KRW_CODE_BID = data[0]["orderbook_units"][0]["bid_price"]
+    
     BTC_CODE_ASK  = data[1]["orderbook_units"][0]["ask_price"]
     BTC_CODE_BID  = data[1]["orderbook_units"][0]["bid_price"]
-    KRW_BTC = data[2]["orderbook_units"][0]["ask_price"]
-    return KRW_CODE, BTC_CODE_ASK, BTC_CODE_BID, KRW_BTC
+    
+    KRW_BTC_ASK = data[2]["orderbook_units"][0]["ask_price"]
+    KRW_BTC_BID = data[2]["orderbook_units"][0]["bid_price"]
 
-def find_direction(code, KRW_CODE, BTC_CODE_ASK, BTC_CODE_BID, KRW_BTC):
+    return KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, BTC_CODE_BID, KRW_BTC_ASK, KRW_BTC_BID
+
+def find_direction_and_execute(code, KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, BTC_CODE_BID, KRW_BTC_ASK, KRW_BTC_BID):
     # Checking Oneway 
-    NEW_CODE = round(BTC_CODE_BID * KRW_BTC,2)
-    if KRW_CODE < NEW_CODE:
-        print("one_way")
+    NEW_KRW_CODE = round(BTC_CODE_BID * KRW_BTC_ASK,2)
+    if KRW_CODE_BID < NEW_KRW_CODE:
+        print("one_way(@)")
         print(f"KRW-{code} ==> BTC-{code} ==> KRW-BTC")
-        profit = round((NEW_CODE-KRW_CODE)/KRW_CODE*100,2)
-        print(f"{KRW_CODE} ==> {NEW_CODE} ({profit}%)")
-        return "oneway", BTC_CODE_BID
 
+        profit = round((NEW_KRW_CODE - KRW_CODE_BID) / KRW_CODE_BID * 100, 2)
+        print(f"{KRW_CODE_BID} ==> {NEW_KRW_CODE} ({profit}%)")
+        one_way(code, KRW_CODE_BID, BTC_CODE_BID, KRW_BTC_ASK, "limit")
+        return
     
     # Checking Otherway
-    NEW_CODE = round(KRW_CODE * (1 / BTC_CODE_ASK),2)
-    if KRW_BTC < NEW_CODE:
+    NEW_KRW_BTC = round(KRW_CODE_ASK / BTC_CODE_ASK,2)
+    if KRW_BTC_BID < NEW_KRW_BTC:
+        print("other_way(@)")
+        print(f"KRW-BTC ==> BTC-{code} ==> KRW-{code}")
+        profit = round((NEW_KRW_BTC - KRW_BTC_BID) / KRW_BTC_BID * 100,2)
+        print(f"{KRW_BTC_BID} ==> {NEW_KRW_BTC} ({profit}%)")
+        other_way(code, KRW_BTC_BID, BTC_CODE_ASK, KRW_CODE_ASK, "limit")
+
+        return
+    else:
+        print("one_way")
+        print(f"KRW-{code} ==> BTC-{code} ==> KRW-BTC")
+        profit = round((NEW_KRW_CODE-KRW_CODE_BID)/KRW_CODE_BID*100,2)
+        print(f"{KRW_CODE_BID} ==> {BTC_CODE_BID} * {KRW_BTC_ASK} = {NEW_KRW_CODE} ({profit}%)\n\n")
+        
         print("other_way")
         print(f"KRW-BTC ==> BTC-{code} ==> KRW-{code}")
-        profit = round((NEW_CODE - KRW_BTC) / KRW_BTC * 100,2)
-        print(f"{KRW_BTC} ==> {NEW_CODE} ({profit}%)")
-        return "otherway", BTC_CODE_ASK
-    else:
-        return False, False
-
-def execute_orders(code, direction, KRW_CODE, BTC_CODE, KRW_BTC):
-    if not direction:
-        return print("No Arbitrage opportunity found")
-    elif direction == "oneway":
-        return one_way(code, KRW_CODE, BTC_CODE, KRW_BTC)
-    elif direction == "otherway":
-        return other_way(code, KRW_CODE, BTC_CODE, KRW_BTC)
+        profit = round((NEW_KRW_BTC - KRW_BTC_BID) / KRW_BTC_BID * 100,2)
+        print(f"{KRW_BTC_BID} ==> {KRW_CODE_ASK} / {BTC_CODE_ASK} = {NEW_KRW_BTC} ({profit}%)\n\n")
 
 
 # Triangular Arbitrage
 def upbit_triangular(code):
     # Get prices from orderbook 
-    KRW_CODE, BTC_CODE_ASK, BTC_CODE_BID, KRW_BTC = get_orderbook_prices(code)
-    
-    # Determine Arbitrage direction
-    direction, BTC_CODE = find_direction(code, KRW_CODE, BTC_CODE_ASK, BTC_CODE_BID, KRW_BTC)
+    KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, BTC_CODE_BID, KRW_BTC_ASK, KRW_BTC_BID = get_orderbook_prices(code)
 
-    # Execute order
-    execute_orders(code, direction, KRW_CODE, BTC_CODE, KRW_BTC)
+
+    # Determine Arbitrage direction and exeecute orders
+    find_direction_and_execute(code, KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, BTC_CODE_BID, KRW_BTC_ASK, KRW_BTC_BID)
+
 
 
 

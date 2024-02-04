@@ -6,6 +6,7 @@ import pyupbit
 import math
 from ..config import ACCESS_KEY,SECRET_KEY
 import pandas as pd
+import sys
 
 UPBIT_TICKERS = [
     "BTC",
@@ -198,11 +199,17 @@ def upbit_limit_buy(symbol, price, volume):
         print(upbit_buy)  # 주문내역
         order_id = upbit_buy["uuid"]  # 주문번호 저장
         order_state = upbit.get_individual_order(order_id)["state"]
-
+        
         # Wait until order is filled
+        wait = 1
         while order_state not in ["cancel", "done"]:
-            print("Limit Buy Order Taking place...")
+            if wait == 20:
+                cancel_result = upbit.cancel_order(order_id)
+                print(cancel_result)
+                sys.exit()
+            print(f"Limit Buy Order Taking place... {wait}")
             order_state = upbit.get_individual_order(order_id)["state"]
+            wait += 1
         return float(upbit_buy["volume"])
     except Exception as e:
         print(f"Unable to buy {symbol} (Upbit)")
@@ -217,10 +224,15 @@ def upbit_limit_sell(symbol, price, volume):
         order_state = upbit.get_individual_order(order_id)["state"]
 
         # Wait until order is filled
+        wait = 1
         while order_state not in ["cancel", "done"]:
-            print("Limit Sell Order Taking place...")
+            if wait == 20:
+                cancel_result = upbit.cancel_order(order_id)
+                print(cancel_result)
+                sys.exit()
+            print(f"Limit Sell Order Taking place... {wait}")
             order_state = upbit.get_individual_order(order_id)["state"]
-            print(order_state)
+            wait += 1
         return float(upbit_sell["volume"])
 
     except Exception as e:
