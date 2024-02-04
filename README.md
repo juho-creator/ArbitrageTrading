@@ -70,6 +70,24 @@ Problem with this is that we are able to find the opportunities, but it's not gu
 - [ ] Less volatile crypto
 
 
+Unable to find/execute triangular arbitrage (ISSSUE WITH DEMAND & SUPPLY)
+- Too much gap between bid/ask of BTC_CODE market
+- Hence, BTC_CODE is. Bought/sold.at overprice/.underprice
+- Order price at BTC_CODE must be fixed to make quick entry/exits in illiquid market
+- Adjusting price levels for KRW_CODE & KRW_BTC helped identify arbitrage opportunities
+- However, the likelihood of the order taking place below 10 price levels is very unlikely
+- Even though I’m able to detect the arbitrage opportunity from the orderbook, it’s not executed because buyers and sellers are not coming to an agreement to my price
+- But if I were to change the logic to buy at ask price and sell at bid price (buy high, sell low) the order is guaranteed to be executed. However, it becomes increasingly difficult to find arbitrage opportunities
+
+
+
+Code update
+ - Cancel triangular arbitrage if limit order takes more than 20seconds
+- Ran my code at .venv
+
+
+
+
 
 
 
