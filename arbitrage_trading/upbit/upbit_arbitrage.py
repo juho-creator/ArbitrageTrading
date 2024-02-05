@@ -2,12 +2,13 @@ import requests
 from .upbit_user import *
 from gtts import gTTS
 from playsound import playsound
-
+import os 
 
 def notify(mytext):
     myobj = gTTS(text=mytext, lang="en", slow=False)
     myobj.save("test.mp3")
-    playsound("/Users/ekime/ArbitrageTrading/test.mp3")
+    playsound("test.mp3")
+    os.remove("test.mp3")
 
 
 
@@ -208,28 +209,35 @@ def find_direction_and_execute(code, KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, B
 
     # Checking Oneway 
     if (KRW_CODE_BID < NEW_KRW_CODE)  and (BTC_CODE_BIDSIZE >= oneway_code_qty) and  (KRW_BTC_BIDSIZE >= oneway_btc_qty) and (oneway_profit > 0.25):
-        one_way(code, KRW_CODE_ASK, BTC_CODE_BID, KRW_BTC_BID, "limit")
+        # one_way(code, KRW_CODE_ASK, BTC_CODE_BID, KRW_BTC_BID, "limit")
         notify("oneway order executed")
-        
+        print(f"@ ONEWAY ORDER EXECUTED : {code}")
+        return oneway_profit
     # Checking Otherway
     elif (KRW_BTC_ASK < NEW_KRW_BTC) and  (BTC_CODE_ASKSIZE > otherway_code_qty) and (KRW_CODE_BIDSIZE > otherway_code_qty) and (otherway_profit > 0.25):
-        other_way(code, KRW_CODE_BID, BTC_CODE_ASK, KRW_BTC_ASK, "limit")
+        # other_way(code, KRW_CODE_BID, BTC_CODE_ASK, KRW_BTC_ASK, "limit")
         notify("otherway order executed")
+        print(f"@ OTHERWAY ORDER EXECUTED : {code}")
+        return otherway_profit
+    
+    return 0
+    
+
+
 
 
 
 
 # Triangular Arbitrage
-def upbit_triangular(code):
+def upbit_triangular(code,krw):
     # Get prices from orderbook 
     KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, BTC_CODE_BID, KRW_BTC_ASK, KRW_BTC_BID, BTC_CODE_ASKSIZE, BTC_CODE_BIDSIZE, KRW_BTC_BIDSIZE, KRW_CODE_BIDSIZE = get_orderbook_prices(code)
 
-    KRW = 33424
 
     # Minimum order quantity
-    oneway_code_qty = KRW / KRW_CODE_BID
+    oneway_code_qty = krw / KRW_CODE_BID
     oneway_btc_qty = oneway_code_qty * BTC_CODE_BID
-    otherway_code_qty = KRW / KRW_CODE_ASK
+    otherway_code_qty = krw / KRW_CODE_ASK
 
 
     # # TESTING LOGIC FLOW
@@ -246,8 +254,10 @@ def upbit_triangular(code):
 
 
     # Determine Arbitrage direction and exeecute orders
-    find_direction_and_execute(code, KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, BTC_CODE_BID, KRW_BTC_ASK, KRW_BTC_BID, BTC_CODE_ASKSIZE, BTC_CODE_BIDSIZE, KRW_BTC_BIDSIZE, KRW_CODE_BIDSIZE, oneway_code_qty, oneway_btc_qty, otherway_code_qty)
-
+    profit = find_direction_and_execute(code, KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, BTC_CODE_BID, KRW_BTC_ASK, KRW_BTC_BID, BTC_CODE_ASKSIZE, BTC_CODE_BIDSIZE, KRW_BTC_BIDSIZE, KRW_CODE_BIDSIZE, oneway_code_qty, oneway_btc_qty, otherway_code_qty)
+    if profit != 0:
+        krw = krw * (1 + profit / 100) * 0.9965
+    return krw
 
 
 
