@@ -1,5 +1,16 @@
 import requests
 from .upbit_user import *
+from gtts import gTTS
+from playsound import playsound
+
+
+def notify(mytext):
+    myobj = gTTS(text=mytext, lang="en", slow=False)
+    myobj.save("test.mp3")
+    playsound("/Users/ekime/ArbitrageTrading/test.mp3")
+
+
+
 
 # Cryptos supporting triangular arbitrage
 available_cryptos = [
@@ -120,7 +131,6 @@ def oneway_limit(symbol, KRW_CODE, BTC_CODE, KRW_BTC, KRW):
         print(CODE_QTY)
         CODE_QTY = upbit_limit_sell(f"BTC-{symbol}", BTC_CODE, CODE_QTY) 
         BTC_QTY = CODE_QTY * BTC_CODE * 0.9975
-        print(BTC_QTY)
         upbit_limit_sell(f"KRW-BTC", KRW_BTC, BTC_QTY)
 
 def one_way(symbol, KRW_CODE="", BTC_CODE="", KRW_BTC="", order_type="limit"):
@@ -144,7 +154,6 @@ def otherway_limit(symbol, KRW_CODE, BTC_CODE, KRW_BTC, KRW):
     BTC_QTY = KRW / KRW_BTC
     upbit_limit_buy(f"KRW-BTC", KRW_BTC, BTC_QTY)
     CODE_QTY = BTC_QTY / BTC_CODE * 0.9975    
-    print(CODE_QTY)
     upbit_limit_buy(f"BTC-{symbol}", BTC_CODE, CODE_QTY)
     upbit_limit_sell(f"KRW-{symbol}", KRW_CODE, CODE_QTY)
 
@@ -166,7 +175,8 @@ def get_orderbook_prices(code):
 
     KRW_CODE_ASK = data[0]["orderbook_units"][0]["ask_price"]
     KRW_CODE_BID = data[0]["orderbook_units"][0]["bid_price"]
-    
+    KRW_CODE_BIDSIZE = data[0]["orderbook_units"][0]["bid_size"]
+
     BTC_CODE_ASK  = data[1]["orderbook_units"][0]["ask_price"]
     BTC_CODE_BID  = data[1]["orderbook_units"][0]["bid_price"]
     
@@ -176,10 +186,12 @@ def get_orderbook_prices(code):
     
     KRW_BTC_ASK = data[2]["orderbook_units"][0]["ask_price"]
     KRW_BTC_BID = data[2]["orderbook_units"][0]["bid_price"]
+    KRW_BTC_BIDSIZE = data[2]["orderbook_units"][0]["bid_size"]
+    
 
-    return KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, BTC_CODE_BID, KRW_BTC_ASK, KRW_BTC_BID, BTC_CODE_ASKSIZE, BTC_CODE_BIDSIZE
+    return KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, BTC_CODE_BID, KRW_BTC_ASK, KRW_BTC_BID, BTC_CODE_ASKSIZE, BTC_CODE_BIDSIZE, KRW_BTC_BIDSIZE, KRW_CODE_BIDSIZE
 
-def find_direction_and_execute(code, KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, BTC_CODE_BID, KRW_BTC_ASK, KRW_BTC_BID, BTC_CODE_ASKSIZE, BTC_CODE_BIDSIZE):
+def find_direction_and_execute(code, KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, BTC_CODE_BID, KRW_BTC_ASK, KRW_BTC_BID, BTC_CODE_ASKSIZE, BTC_CODE_BIDSIZE, KRW_BTC_BIDSIZE, KRW_CODE_BIDSIZE, oneway_code_qty, oneway_btc_qty, otherway_code_qty):
     # Print direction status
     NEW_KRW_CODE = round(BTC_CODE_BID * KRW_BTC_BID,2)
     print("one_way")
@@ -195,22 +207,46 @@ def find_direction_and_execute(code, KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, B
 
 
     # Checking Oneway 
-    if KRW_CODE_BID < NEW_KRW_CODE  and BTC_CODE_BID * BTC_CODE_BIDSIZE > 0.0005  and oneway_profit > 0.35:
+    if (KRW_CODE_BID < NEW_KRW_CODE)  and (BTC_CODE_BIDSIZE >= oneway_code_qty) and  (KRW_BTC_BIDSIZE >= oneway_btc_qty) and (oneway_profit > 0.25):
         one_way(code, KRW_CODE_ASK, BTC_CODE_BID, KRW_BTC_BID, "limit")
-    # Checking Otherway
-    elif KRW_BTC_ASK < NEW_KRW_BTC and BTC_CODE_ASK * BTC_CODE_ASKSIZE > 0.0005 and otherway_profit > 0.35:
-        other_way(code, KRW_CODE_BID, BTC_CODE_ASK, KRW_BTC_ASK, "limit")
+        notify("oneway order executed")
         
+    # Checking Otherway
+    elif (KRW_BTC_ASK < NEW_KRW_BTC) and  (BTC_CODE_ASKSIZE > otherway_code_qty) and (KRW_CODE_BIDSIZE > otherway_code_qty) and (otherway_profit > 0.25):
+        other_way(code, KRW_CODE_BID, BTC_CODE_ASK, KRW_BTC_ASK, "limit")
+        notify("otherway order executed")
+
 
 
 
 # Triangular Arbitrage
 def upbit_triangular(code):
     # Get prices from orderbook 
-    KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, BTC_CODE_BID, KRW_BTC_ASK, KRW_BTC_BID, BTC_CODE_ASKSIZE, BTC_CODE_BIDSIZE = get_orderbook_prices(code)
+    KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, BTC_CODE_BID, KRW_BTC_ASK, KRW_BTC_BID, BTC_CODE_ASKSIZE, BTC_CODE_BIDSIZE, KRW_BTC_BIDSIZE, KRW_CODE_BIDSIZE = get_orderbook_prices(code)
+
+    KRW = 33424
+
+    # Minimum order quantity
+    oneway_code_qty = KRW / KRW_CODE_BID
+    oneway_btc_qty = oneway_code_qty * BTC_CODE_BID
+    otherway_code_qty = KRW / KRW_CODE_ASK
+
+
+    # # TESTING LOGIC FLOW
+    # NEW_KRW_CODE = round(BTC_CODE_BID * KRW_BTC_BID,2)
+    # oneway_profit = round((NEW_KRW_CODE - KRW_CODE_BID) / KRW_CODE_BID * 100, 2)
+
+    # NEW_KRW_BTC = round(KRW_CODE_BID / BTC_CODE_ASK,2)
+    # otherway_profit = round((NEW_KRW_BTC - KRW_BTC_ASK) / KRW_BTC_ASK * 100,2)
+    
+    # if (otherway_profit > 0.25) or (oneway_profit > 0.25):
+    #     print(f"oneway : {BTC_CODE_BIDSIZE} >= {oneway_code_qty} and  {KRW_BTC_BIDSIZE} >= {oneway_btc_qty} and {oneway_profit} > 0.25 ({BTC_CODE_BIDSIZE >= oneway_code_qty and  KRW_BTC_BIDSIZE >= oneway_btc_qty and oneway_profit > 0.25})")
+    #     print(f"otherway : {BTC_CODE_ASKSIZE} > {otherway_code_qty} and {KRW_CODE_BIDSIZE} > {otherway_code_qty} and {otherway_profit} > 0.25 ({BTC_CODE_ASKSIZE > otherway_code_qty and KRW_CODE_BIDSIZE > otherway_code_qty and otherway_profit > 0.25})")
+        
+
 
     # Determine Arbitrage direction and exeecute orders
-    find_direction_and_execute(code, KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, BTC_CODE_BID, KRW_BTC_ASK, KRW_BTC_BID, BTC_CODE_ASKSIZE, BTC_CODE_BIDSIZE)
+    find_direction_and_execute(code, KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, BTC_CODE_BID, KRW_BTC_ASK, KRW_BTC_BID, BTC_CODE_ASKSIZE, BTC_CODE_BIDSIZE, KRW_BTC_BIDSIZE, KRW_CODE_BIDSIZE, oneway_code_qty, oneway_btc_qty, otherway_code_qty)
 
 
 
