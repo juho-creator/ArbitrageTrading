@@ -199,13 +199,17 @@ def find_direction_and_execute(code, KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, B
     print(f"KRW-{code} ==> BTC-{code} ==> KRW-BTC")
     oneway_profit = round((NEW_KRW_CODE - KRW_CODE_BID) / KRW_CODE_BID * 100, 2)
     if oneway_profit > 0:
-        print(f"{KRW_CODE_BID} ==> {NEW_KRW_CODE} (+{oneway_profit}%)\n")
+        print(f"{KRW_CODE_BID} ==> {NEW_KRW_CODE} (+{oneway_profit}%)")
         print(f"BTC_CODE qty : {BTC_CODE_BIDSIZE} >= {oneway_code_qty} ({BTC_CODE_BIDSIZE >= oneway_code_qty})")
         print(f"KRW_BTC qty : {KRW_BTC_BIDSIZE} >= {oneway_btc_qty} ({KRW_BTC_BIDSIZE >= oneway_btc_qty})")
+        print(f"profit : {oneway_profit} > 0.35 ({oneway_profit > 0.35})\n")
+
     else:
-        print(f"{KRW_CODE_BID} ==> {NEW_KRW_CODE} ({oneway_profit}%)\n")
+        print(f"{KRW_CODE_BID} ==> {NEW_KRW_CODE} ({oneway_profit}%)")
         print(f"BTC_CODE qty : {BTC_CODE_BIDSIZE} >= {oneway_code_qty} ({BTC_CODE_BIDSIZE >= oneway_code_qty})")
         print(f"KRW_BTC qty : {KRW_BTC_BIDSIZE} >= {oneway_btc_qty} ({KRW_BTC_BIDSIZE >= oneway_btc_qty})")
+        print(f"profit : {oneway_profit} > 0.35 ({oneway_profit > 0.35})\n")
+
 
 
     NEW_KRW_BTC = round(KRW_CODE_BID / BTC_CODE_ASK,2)
@@ -216,11 +220,12 @@ def find_direction_and_execute(code, KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, B
         print(f"{KRW_BTC_ASK} ==> {NEW_KRW_BTC} (+{otherway_profit}%)")
         print(f"BTC_CODE qty : {BTC_CODE_ASKSIZE} > {otherway_code_qty} ({BTC_CODE_ASKSIZE > otherway_code_qty})")
         print(f"KRW_CODE qty : {KRW_CODE_BIDSIZE} > {otherway_code_qty} ({KRW_CODE_BIDSIZE > otherway_code_qty})")
+        print(f"profit : {otherway_profit} > 0.35 ({otherway_profit > 0.35})\n")
     else:
         print(f"{KRW_BTC_ASK} ==> {NEW_KRW_BTC} ({otherway_profit}%)")
         print(f"BTC_CODE qty : {BTC_CODE_ASKSIZE} > {otherway_code_qty} ({BTC_CODE_ASKSIZE > otherway_code_qty})")
         print(f"KRW_CODE qty : {KRW_CODE_BIDSIZE} > {otherway_code_qty} ({KRW_CODE_BIDSIZE > otherway_code_qty})")
-
+        print(f"profit : {otherway_profit} > 0.35 ({otherway_profit > 0.35})\n")
 
 
 
