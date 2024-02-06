@@ -198,25 +198,42 @@ def find_direction_and_execute(code, KRW_CODE_ASK, KRW_CODE_BID, BTC_CODE_ASK, B
     print("one_way")
     print(f"KRW-{code} ==> BTC-{code} ==> KRW-BTC")
     oneway_profit = round((NEW_KRW_CODE - KRW_CODE_BID) / KRW_CODE_BID * 100, 2)
-    print(f"{KRW_CODE_BID} ==> {NEW_KRW_CODE} ({oneway_profit}%)\n")
-    
+    if oneway_profit > 0:
+        print(f"{KRW_CODE_BID} ==> {NEW_KRW_CODE} (+{oneway_profit}%)\n")
+        print(f"BTC_CODE qty : {BTC_CODE_BIDSIZE} >= {oneway_code_qty} ({BTC_CODE_BIDSIZE >= oneway_code_qty})")
+        print(f"KRW_BTC qty : {KRW_BTC_BIDSIZE} >= {oneway_btc_qty} ({KRW_BTC_BIDSIZE >= oneway_btc_qty})")
+    else:
+        print(f"{KRW_CODE_BID} ==> {NEW_KRW_CODE} ({oneway_profit}%)\n")
+        print(f"BTC_CODE qty : {BTC_CODE_BIDSIZE} >= {oneway_code_qty} ({BTC_CODE_BIDSIZE >= oneway_code_qty})")
+        print(f"KRW_BTC qty : {KRW_BTC_BIDSIZE} >= {oneway_btc_qty} ({KRW_BTC_BIDSIZE >= oneway_btc_qty})")
+
+
     NEW_KRW_BTC = round(KRW_CODE_BID / BTC_CODE_ASK,2)
     print("\nother_way")
     print(f"KRW-BTC ==> BTC-{code} ==> KRW-{code}")
     otherway_profit = round((NEW_KRW_BTC - KRW_BTC_ASK) / KRW_BTC_ASK * 100,2)
-    print(f"{KRW_BTC_ASK} ==> {NEW_KRW_BTC} ({otherway_profit}%)")
+    if otherway_profit > 0:
+        print(f"{KRW_BTC_ASK} ==> {NEW_KRW_BTC} (+{otherway_profit}%)")
+        print(f"BTC_CODE qty : {BTC_CODE_ASKSIZE} > {otherway_code_qty} ({BTC_CODE_ASKSIZE > otherway_code_qty})")
+        print(f"KRW_CODE qty : {KRW_CODE_BIDSIZE} > {otherway_code_qty} ({KRW_CODE_BIDSIZE > otherway_code_qty})")
+    else:
+        print(f"{KRW_BTC_ASK} ==> {NEW_KRW_BTC} ({otherway_profit}%)")
+        print(f"BTC_CODE qty : {BTC_CODE_ASKSIZE} > {otherway_code_qty} ({BTC_CODE_ASKSIZE > otherway_code_qty})")
+        print(f"KRW_CODE qty : {KRW_CODE_BIDSIZE} > {otherway_code_qty} ({KRW_CODE_BIDSIZE > otherway_code_qty})")
+
+
 
 
     # Checking Oneway 
-    if (KRW_CODE_BID < NEW_KRW_CODE)  and (BTC_CODE_BIDSIZE >= oneway_code_qty) and  (KRW_BTC_BIDSIZE >= oneway_btc_qty) and (oneway_profit > 0.25):
+    if (KRW_CODE_BID < NEW_KRW_CODE)  and (BTC_CODE_BIDSIZE >= oneway_code_qty) and  (KRW_BTC_BIDSIZE >= oneway_btc_qty) and (oneway_profit > 0.35):
         # one_way(code, KRW_CODE_ASK, BTC_CODE_BID, KRW_BTC_BID, "limit")
-        notify("oneway order executed")
+        # notify("oneway order executed")
         print(f"@ ONEWAY ORDER EXECUTED : {code}")
         return oneway_profit
     # Checking Otherway
-    elif (KRW_BTC_ASK < NEW_KRW_BTC) and  (BTC_CODE_ASKSIZE > otherway_code_qty) and (KRW_CODE_BIDSIZE > otherway_code_qty) and (otherway_profit > 0.25):
+    elif (KRW_BTC_ASK < NEW_KRW_BTC) and  (BTC_CODE_ASKSIZE > otherway_code_qty) and (KRW_CODE_BIDSIZE > otherway_code_qty) and (otherway_profit > 0.35):
         # other_way(code, KRW_CODE_BID, BTC_CODE_ASK, KRW_BTC_ASK, "limit")
-        notify("otherway order executed")
+        # notify("otherway order executed")
         print(f"@ OTHERWAY ORDER EXECUTED : {code}")
         return otherway_profit
     
