@@ -19,10 +19,19 @@ def upbit_triangular_roundtrip(krw):
     return krw
 
 
-krw = 35000
-i = 0
-start_time = time.time()
-while time.time() - start_time < 3600:
-    krw = upbit_triangular_roundtrip(krw)
-    i += 1 
+
+
+
+def run_triangular_roundtrip(hour, initial_balance):
+    seconds = hour * 3600
+    krw = initial_balance
+    global i 
+    i = 0
+    start_time = time.time()
+    while time.time() - start_time < seconds:
+        krw = upbit_triangular_roundtrip(krw)
+        i += 1 
+
+
+run_triangular_roundtrip(8, 35000)
 
