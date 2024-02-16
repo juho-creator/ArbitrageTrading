@@ -1,5 +1,6 @@
 # Arbitrage Trading 
-## Motivation
+
+### Motivation
 Think about what you really want in life.
 Do you want to wake up every day worrying about your personal finance?
 Living with a person I hate dreadfully?
@@ -30,8 +31,11 @@ DO NOT EVER GIVE UP.
 오늘 진짜 그거 하나 잘 배웠다
 
 
+## Triangular Arbitrage
+![image](https://github.com/juho-creator/ArbitrageTrading/assets/72856990/f4a26897-9652-46c7-8bcc-18d0b53c3bfa)
 
-# Current Progress 
+
+### Current Progress 
 Due to illiquid market, I faced several issues on orders.
 Following attempts of Triangular Arbitrage were executed on Upbit:
 - [x] Create Market Orders (create fast orders)
@@ -55,8 +59,8 @@ Following attempts of Triangular Arbitrage were executed on Upbit:
 - [ ] Implement order reminders (More time to work on something else while testing)
 
 
-## Greatest Challenge
-### order speed & order profit tradeoff
+### Greatest Challenge
+#### order speed & order profit tradeoff
 For faster limit order fills, buy/sell orders were implemented at ask/bid prices respectively. 
 However, the since we are buying high and selling low, arbitrage opportunities are not detected.
 
