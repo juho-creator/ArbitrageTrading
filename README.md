@@ -64,14 +64,23 @@ Following attempts of Triangular Arbitrage were executed on Upbit:
 
 
 
-### Greatest Challenge
-#### order speed & order profit tradeoff
-For faster limit order fills, buy/sell orders were implemented at ask/bid prices respectively. 
-However, the since we are buying high and selling low, arbitrage opportunities are harder to detect.
+### Greatest Challenge: Profitable Order Guarantee & Arbitrage Opportunity Tradeoff
 
-Since the only illiquid market is BTC_CODE, we could buy/sell at ask/bid and try buy/sell orders at bid/sell on KRW_CODE and KRW_BTC 
-for spotting arbitrage opporunities.
-Problem with this is that we are able to find the opportunities, but it's not guaranteed that order would be filled in volatile markets.
+In the diagram, increasing guaranteed profitable orders decreases arbitrage opportunities, while increasing order speed has the opposite effect. This occurs because attempting to buy high and sell low reduces the arbitrage gap.
+
+Assuming the execution of **oneway()**:
+
+**Level 1 (Market Order):**
+Orders are placed at market prices, offering ask prices when buying and bid prices when selling for instant orders. This leads to buying high, selling low, and then selling low again, resulting in slippage and a guaranteed losing triangular arbitrage trade.
+
+**Level 2 (BUY low, SELL high):**
+While seemingly ideal for maximizing arbitrage opportunities at exact price levels, there's no guarantee of orders being filled. Orders may remain unfilled, and even if filled, there's no assurance of subsequent orders being filled. In practice, it's nearly impossible for all orders to be filled as desired.
+
+**Level 3 (BUY high, SELL low):**
+Orders are placed when buyers and sellers exist at the desired price, almost guaranteeing execution. However, it becomes challenging to profit from small arbitrage opportunities.
+
+This concise overview highlights the tradeoff between ensuring profitable orders and maximizing arbitrage opportunities.
+
 
 **Solution :**  </br>
 - [ ] Try buy/sell orders at bid/ask price on KRW_CODE and KRW_BTC on liquid market and  buy/sell at ask/bid price for faster execution
