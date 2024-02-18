@@ -67,7 +67,7 @@ Following attempts of Triangular Arbitrage were executed on Upbit:
 ### Greatest Challenge
 #### order speed & order profit tradeoff
 For faster limit order fills, buy/sell orders were implemented at ask/bid prices respectively. 
-However, the since we are buying high and selling low, arbitrage opportunities are not detected.
+However, the since we are buying high and selling low, arbitrage opportunities are harder to detect.
 
 Since the only illiquid market is BTC_CODE, we could buy/sell at ask/bid and try buy/sell orders at bid/sell on KRW_CODE and KRW_BTC 
 for spotting arbitrage opporunities.
