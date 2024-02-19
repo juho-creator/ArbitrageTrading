@@ -1,36 +1,4 @@
 # Arbitrage Trading 
-
-### Motivation
-Think about what you really want in life.
-Do you want to wake up every day worrying about your personal finance?
-Living with a person I hate dreadfully?
-Not having a single passionate person to talk to?
-Always living under standards set by other people?
-Where does that even lead to?
-NO WHERE!!!
-
-So you are going to figure it out.
-It's going to be a long journey but I know you will figure it out.
-You might have to struggle alot.
-But you know it's worth it
-Every attempt you've failed will all make sense and guide you. 
-
-DO NOT EVER GIVE UP.
-
-여기 살면서 덕분에 대다수가 평생 느낄수 없는 경험을 했다.
-난 그래도 절때 갑과 을 관계로 항상 쩔쩔 기면서 ㅈ같이 살고 싶지 않다.
-점점 그렇게 되가고 자연스럽게 그게 맞다고 생각한 사고방식이 진짜 싫다.
-이 느낌 잊지마.
-자기 자신이 걍 보스라 생각하고 걍 지 멋대로
-자신이 생각하는 가치관 아래서 계속 평가 당하는 이 찝찝하고 더러운 기분.
-
-자신의 가치관과 신념 항상 강조하고 막상 상대 생각은 없는 정말 징그러운 사람.
-넌 그래서 너만의 방식을 찾아야되.    
-다른 사람이 강조하는 방식으로 살면
-너 자신을 잃게되는거야
-오늘 진짜 그거 하나 잘 배웠다
-
-
 ## Triangular Arbitrage
 ![image](https://github.com/juho-creator/ArbitrageTrading/assets/72856990/f4a26897-9652-46c7-8bcc-18d0b53c3bfa)
 
