@@ -1,22 +1,29 @@
 [![English](https://img.shields.io/badge/lang-English-blue.svg)](https://github.com/juho-creator/ArbitrageTrading/blob/main/README.md)
 [![한국어](https://img.shields.io/badge/lang-한국어-red.svg)](https://github.com/juho-creator/ArbitrageTrading/blob/main/README.KR.md)
 
- 
-# Triangular Arbitrage
-![image](https://github.com/juho-creator/ArbitrageTrading/assets/72856990/fdec201b-fe43-4a0b-9f56-8fb5aacad1b5)
+# Triangular Arbitrage trading 
+ > [!CAUTION]  
+>**This is a study soley performed on Upbit exchange until 21st Feburary 2024. </br>
+Conditions that may appear on other exchanges is not reflected in this README. </br>
+ANY CONTENT IS SUBJECT TO CHANGE AFTER UPDATE**
 
-Triangular Arbitrage is a type of arbitrage trading that seeks to profit from arbitrage opportunities among different crypto pairs. </br>
-For instance, if I want to buy
+> [!NOTE]
+>**Code is not shared as it's still under development**
+</br></br>
 
-At Upbit Exchange, there are only 2 types of crypto market (BTC and KRW)
+![image](https://github.com/juho-creator/ArbitrageTrading/assets/72856990/a9c56335-69fd-4df9-9e00-2a9b42946890)
 
-Out of 119 cryptos registered in the exchange, only 98 support BTC market. 
+- Triangular Arbitrage trading seeks to profit by taking arbitrage opportunities among different crypto pairs. </br>
+- Trading can take place in both clockwise and anticlockwise direction depending on the available arbitrage opportunity as shown on the diagram above.
+- There are 2 types of crypto market at Upbit Exchange. (BTC and KRW)
+- Out of 119 cryptos registered in the Upbit exchange, only 98 support BTC market. 
 
 
+</br>
 
 ## Current Progress 
-Due to illiquid market, I faced several issues on orders.
-Following attempts of Triangular Arbitrage were executed on Upbit:
+Due to illiquid market, I faced several issues on placing orders. </br>
+Following are attempts that were/to be made to improve the algorithm along with the issues that arose after development : 
 - [x] Create Market Orders (create fast orders)
    - **slippage**
 - [X] Create Limit Order (prevent slippage)
@@ -40,14 +47,17 @@ Following attempts of Triangular Arbitrage were executed on Upbit:
 - [X] Implement order reminders (More time to work on something else while testing)
 - [ ] Only monitor a high volume, volatile crypto currency (close analysis on trade)
 - [ ] Add Telegram API
+</br>
 
+## Greatest Challenge
 
+### Profitable Order Guarantee & Arbitrage Opportunity Tradeoff
 
-## Greatest Challenge: Profitable Order Guarantee & Arbitrage Opportunity Tradeoff
+The relation betweeen profitable order guarantee and order speed is inversely proportional.</br>
+Increasing guaranteed profitable orders decreases arbitrage opportunities, while increasing order speed has the opposite effect. </br>
+This occurs because attempting to buy high and sell low reduces the arbitrage gap while ensuring order fills.</br>
 
-In the diagram, increasing guaranteed profitable orders decreases arbitrage opportunities, while increasing order speed has the opposite effect. This occurs because attempting to buy high and sell low reduces the arbitrage gap.
-
-Assuming the execution of **oneway()**:
+Let's take the execution of **oneway()** at different levels for reference:
 
 **Level 1 (Market Order):**
 Orders are placed at market prices, offering ask prices when buying and bid prices when selling for instant orders. This leads to buying high, selling low, and then selling low again, resulting in slippage and a guaranteed losing triangular arbitrage trade.
@@ -58,8 +68,9 @@ While seemingly ideal for maximizing arbitrage opportunities at exact price leve
 **Level 3 (BUY high, SELL low):**
 Orders are placed when buyers and sellers exist at the desired price, almost guaranteeing execution. However, it becomes challenging to profit from small arbitrage opportunities.
 
-This concise overview highlights the tradeoff between ensuring profitable orders and maximizing arbitrage opportunities.
+This concise overview highlights the tradeoff between ensuring profitable orders and maximizing arbitrage opportunities. For more information, please refer to my notes.
 
+### Inherently illiquid BTC pair market
 
 **Solution :**  </br>
 - [ ] Try buy/sell orders at bid/ask price on KRW_CODE and KRW_BTC on liquid market and  buy/sell at ask/bid price for faster execution
