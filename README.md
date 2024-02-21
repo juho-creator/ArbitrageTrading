@@ -1,9 +1,20 @@
-# Arbitrage Trading 
-## Triangular Arbitrage
-![image](https://github.com/juho-creator/ArbitrageTrading/assets/72856990/f4a26897-9652-46c7-8bcc-18d0b53c3bfa)
+[![English](https://img.shields.io/badge/lang-English-blue.svg)](https://github.com/juho-creator/ArbitrageTrading/blob/main/README.md)
+[![한국어](https://img.shields.io/badge/lang-한국어-red.svg)](https://github.com/juho-creator/ArbitrageTrading/blob/main/README.KR.md)
+
+ 
+# Triangular Arbitrage
+![image](https://github.com/juho-creator/ArbitrageTrading/assets/72856990/fdec201b-fe43-4a0b-9f56-8fb5aacad1b5)
+
+Triangular Arbitrage is a type of arbitrage trading that seeks to profit from arbitrage opportunities among different crypto pairs. </br>
+For instance, if I want to buy
+
+At Upbit Exchange, there are only 2 types of crypto market (BTC and KRW)
+
+Out of 119 cryptos registered in the exchange, only 98 support BTC market. 
 
 
-### Current Progress 
+
+## Current Progress 
 Due to illiquid market, I faced several issues on orders.
 Following attempts of Triangular Arbitrage were executed on Upbit:
 - [x] Create Market Orders (create fast orders)
@@ -23,7 +34,7 @@ Following attempts of Triangular Arbitrage were executed on Upbit:
   - **Buy high and sell low --> arbitrage not detected**
 - [X] Double check if limit/market orders work in both directions
 - [X]  Cancel limit order if it's on hold for more than 20 units
-- [ ]  Check quantity before executing arbitrage
+- [X]  Check quantity before executing arbitrage
    - **OneWay : BTC-CODE, KRW-BTC**
    - **OtherWay : BTC-CODE, KRW-CODE**
 - [X] Implement order reminders (More time to work on something else while testing)
@@ -32,7 +43,7 @@ Following attempts of Triangular Arbitrage were executed on Upbit:
 
 
 
-### Greatest Challenge: Profitable Order Guarantee & Arbitrage Opportunity Tradeoff
+## Greatest Challenge: Profitable Order Guarantee & Arbitrage Opportunity Tradeoff
 
 In the diagram, increasing guaranteed profitable orders decreases arbitrage opportunities, while increasing order speed has the opposite effect. This occurs because attempting to buy high and sell low reduces the arbitrage gap.
 
