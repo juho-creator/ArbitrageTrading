@@ -11,8 +11,25 @@
 > [!NOTE]
 > **코드는 아직 개발 중이므로 공유되지 않았습니다.**
 
-![이미지](https://github.com/juho-creator/ArbitrageTrading/assets/72856990/a9c56335-69fd-4df9-9e00-2a9b42946890)
+[![English](https://img.shields.io/badge/lang-English-blue.svg)](https://github.com/juho-creator/ArbitrageTrading/blob/main/README.md)
+[![한국어](https://img.shields.io/badge/lang-한국어-red.svg)](https://github.com/juho-creator/ArbitrageTrading/blob/main/README.KR.md)
 
+# Triangular Arbitrage Trading
+
+> [!CAUTION]  
+> **This study focuses solely on the Upbit exchange until February 21st, 2024 </br>
+>  Conditions on other exchanges are not considered</br>
+> CONTENT IS SUBJECT TO CHANGE AFTER UPDATES**
+
+> [!NOTE]
+> **Code is not shared as it's still under development.**
+
+![306502733-a9c56335-69fd-4df9-9e00-2a9b42946890](https://github.com/juho-creator/triangular_arbitrage/assets/72856990/cfe964f7-e0d6-404d-8cfa-3409926ee38f)
+
+
+- Triangular Arbitrage trading aims to profit from arbitrage opportunities among different crypto pair markets
+- Trading can occur clockwise or anticlockwise depending on available arbitrage opportunities
+- Upbit Exchange offers two types of crypto markets: BTC and KRW
 - 삼각차익거래는 서로 다른 암호 화폐 페어 시장 사이의 차익 거래 기회에서 이익을 얻으려는 것을 목표로 합니다.
 - 거래는 이용 가능한 차익 거래 기회에 따라 시계 방향 또는 반시계 방향으로 발생할 수 있습니다.
 - 업비트 거래소는 BTC 및 KRW 두 가지 유형의 암호 화폐 시장을 제공합니다.
