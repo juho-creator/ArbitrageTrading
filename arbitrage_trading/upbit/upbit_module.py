@@ -106,36 +106,6 @@ def upbit_global_ticker_all(country):
     data = resp.json()  # UPBIT Singapore
     return data
 
-
-
-def checkTriangular(code="XRP", exchange="upbit"):
-    print(f"\n{code}")
-    if exchange == "upbit":
-        one_way, profit, KRW_CODE, BTC_CODE, KRW_BTC = upbitTriangular(code)
-        return one_way, profit, KRW_CODE, BTC_CODE, KRW_BTC
-
-    # elif exchange == "binance":
-    #     one_way, profit, USDT_CODE, BTC_CODE, USDT_BTC = binanceTriangular(code)
-    #     return one_way, profit, USDT_CODE, BTC_CODE, USDT_BTC
-
-def check_all_triangular():
-
-    all_profits = {}
-
-    for symbol in upbit_global_ticker_all():
-        try:
-            direction, profit = checkTriangular(symbol)
-            all_profits[symbol] = [direction, profit]
-        except:
-            print(f"{symbol} : No triangular arbitrage")
-
-    sorted_dict = dict(
-        sorted(all_profits.items(), key=lambda item: item[1][1], reverse=True)
-    )
-    pprint(sorted_dict, sort_dicts=False)
-    return sorted_dict
-
-
 # Transfer Arbitrage
 def current_kimpga(symbol, currency):
     try:

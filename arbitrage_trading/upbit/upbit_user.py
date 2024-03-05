@@ -7,6 +7,7 @@ import math
 from ..config import ACCESS_KEY,SECRET_KEY
 import pandas as pd
 import sys
+from ..binance.binance_user import BinanceAddress
 
 UPBIT_TICKERS = [
     "BTC",

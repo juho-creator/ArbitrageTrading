@@ -1,3 +1,7 @@
+from ..config import *
+import ccxt
+
+
 api_params = {
     "apiKey": API_KEY,
     "secret": API_SECRET,
