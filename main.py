@@ -5,27 +5,33 @@ import keyboard
 
 # Triangular Arbitrage
 def upbit_triangular(code, krw):
+    
     # 1. Get prices from orderbook 
     orderbook = get_orderbook_prices(code)
+    available_btc_qty = krw / orderbook["KRW_BTC_ASK"]
+    if available_btc_qty >= 0.0005:
 
-    # 2. Compute available order quantity with current balance
-    available_qty = get_available_qty(krw, orderbook)
+        # 2. Compute available order quantity with current balance
+        available_qty = get_available_qty(krw, orderbook)
 
-    # Get new price
-    new_prices = get_new_prices(orderbook)
+        # Get new price
+        new_prices = get_new_prices(orderbook)
+        
+        # 3. Print triangular Arbitrage status
+        expected_profits = print_triangular_arbitrage(code, orderbook, available_qty, new_prices)
+
+        # 4. Execute orders
+        profit = execute_triangular_arbitrage(code, krw, orderbook, available_qty, new_prices, expected_profits)
+
+        # 5. Calculate Balance after trading
+        current_balance = balance_after_arbitrage(krw, profit)
+
+        return current_balance, profit
     
-    # 3. Print triangular Arbitrage status
-    expected_profits = print_triangular_arbitrage(code, orderbook, available_qty, new_prices)
-
-    # 4. Execute orders
-    profit = execute_triangular_arbitrage(code, orderbook, available_qty, new_prices, expected_profits)
-
-    # 5. Calculate Balance after trading
-    current_balance = balance_after_arbitrage(krw, profit)
-
-    return current_balance, profit
-
-
+    else:
+        print("Insufficient BTC")
+        print(f"{available_btc_qty} < 0.0005 ({available_btc_qty < 0.0005})")
+    
 
 
 
@@ -41,7 +47,11 @@ def upbit_triangular_roundtrip(krw, count):
             raise SystemExit
 
         print(f"\n\n{crypto}")
-        krw, profit = upbit_triangular(crypto, krw)
+        try:
+            krw, profit = upbit_triangular(crypto, krw)
+        except Exception as e:
+            print(e)
+
     # notify("Arbitrage detection completed")
     if profit != 0:
         # notify(f"Balance after trading : {krw}")
@@ -61,9 +71,8 @@ def run_triangular_roundtrip(hour, initial_balance):
     notify("Triangular Arbitrage Trading completed")
 
 
-initial_balance = krw_balance()
+initial_balance = 49000
 
-# run_triangular_roundtrip(1, initial_balance)
+run_triangular_roundtrip(1, initial_balance)
 
-
-krw, profit = upbit_triangular("CBK", initial_balance)
+# krw, profit = upbit_triangular("PLA", initial_balance)

@@ -8,6 +8,7 @@ from ..config import ACCESS_KEY,SECRET_KEY
 import pandas as pd
 import sys
 from ..binance.binance_user import BinanceAddress
+from .upbit_module import notify
 
 UPBIT_TICKERS = [
     "BTC",
@@ -204,6 +205,9 @@ def upbit_limit_buy(symbol, price, volume):
         # Wait until order is filled
         wait = 1
         while order_state not in ["cancel", "done"]:
+            if wait == 1:
+                notify("Entering cancel countdown")
+
             if wait == 20:
                 cancel_result = upbit.cancel_order(order_id)
                 print(cancel_result)
@@ -227,6 +231,9 @@ def upbit_limit_sell(symbol, price, volume):
         # Wait until order is filled
         wait = 1
         while order_state not in ["cancel", "done"]:
+            if wait == 1:
+                notify("Entering cancel countdown")
+                
             if wait == 20:
                 cancel_result = upbit.cancel_order(order_id)
                 print(cancel_result)

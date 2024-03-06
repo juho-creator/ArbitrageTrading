@@ -1,12 +1,11 @@
-from ..binance.binance_module import binance_price
-from ..bithumb.bithumb_module import bithumb_price
-from .upbit_arbitrage import one_way,other_way
+# from ..binance.binance_module import binance_price
 import pandas as pd
 import requests
 import time
-from pprint import pprint
 from bs4 import BeautifulSoup
-
+from gtts import gTTS
+from playsound import playsound
+import os 
 
 # Obtaining currency
 def get_currency_api(code):
@@ -143,7 +142,10 @@ def get_all_kimp():
     df.to_csv("output.csv", index=False)
 
 
-if __name__== "__main__":
-    start_time = time.time()
-    print("hi")
-    print("--- %s seconds ---" % (time.time() - start_time))
+
+def notify(mytext):
+    myobj = gTTS(text=mytext, lang="en", slow=False)
+    myobj.save("test.mp3")
+    playsound("test.mp3")
+    os.remove("test.mp3")
+
