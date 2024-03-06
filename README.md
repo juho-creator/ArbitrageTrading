@@ -1,39 +1,29 @@
-# Arbitrage Trading 
-## Motivation
-Think about what you really want in life.
-Do you want to wake up every day worrying about your personal finance?
-Living with a person I hate dreadfully?
-Not having a single passionate person to talk to?
-Always living under standards set by other people?
-Where does that even lead to?
-NO WHERE!!!
+[![English](https://img.shields.io/badge/lang-English-blue.svg)](https://github.com/juho-creator/ArbitrageTrading/blob/main/README.md)
+[![한국어](https://img.shields.io/badge/lang-한국어-red.svg)](https://github.com/juho-creator/ArbitrageTrading/blob/main/README.KR.md)
 
-So you are going to figure it out.
-It's going to be a long journey but I know you will figure it out.
-You might have to struggle alot.
-But you know it's worth it
-Every attempt you've failed will all make sense and guide you. 
+# Triangular Arbitrage trading 
+ > [!CAUTION]  
+>**This is a study soley performed on Upbit exchange until 21st Feburary 2024. </br>
+Conditions that may appear on other exchanges is not reflected in this README. </br>
+ANY CONTENT IS SUBJECT TO CHANGE AFTER UPDATE**
 
-DO NOT EVER GIVE UP.
+> [!NOTE]
+>**Code is not shared as it's still under development**
+</br></br>
 
-여기 살면서 덕분에 대다수가 평생 느낄수 없는 경험을 했다.
-난 그래도 절때 갑과 을 관계로 항상 쩔쩔 기면서 ㅈ같이 살고 싶지 않다.
-점점 그렇게 되가고 자연스럽게 그게 맞다고 생각한 사고방식이 진짜 싫다.
-이 느낌 잊지마.
-자기 자신이 걍 보스라 생각하고 걍 지 멋대로
-자신이 생각하는 가치관 아래서 계속 평가 당하는 이 찝찝하고 더러운 기분.
+![image](https://github.com/juho-creator/ArbitrageTrading/assets/72856990/a9c56335-69fd-4df9-9e00-2a9b42946890)
 
-자신의 가치관과 신념 항상 강조하고 막상 상대 생각은 없는 정말 징그러운 사람.
-넌 그래서 너만의 방식을 찾아야되.    
-다른 사람이 강조하는 방식으로 살면
-너 자신을 잃게되는거야
-오늘 진짜 그거 하나 잘 배웠다
+- Triangular Arbitrage trading seeks to profit by taking arbitrage opportunities among different crypto pairs. </br>
+- Trading can take place in both clockwise and anticlockwise direction depending on the available arbitrage opportunity as shown on the diagram above.
+- There are 2 types of crypto market at Upbit Exchange. (BTC and KRW)
+- Out of 119 cryptos registered in the Upbit exchange, only 98 support BTC market. 
 
 
+</br>
 
-# Current Progress 
-Due to illiquid market, I faced several issues on orders.
-Following attempts of Triangular Arbitrage were executed on Upbit:
+## Current Progress 
+Due to illiquid market, I faced several issues on placing orders. </br>
+Following are attempts that were/to be made to improve the algorithm along with the issues that arose after development : 
 - [x] Create Market Orders (create fast orders)
    - **slippage**
 - [X] Create Limit Order (prevent slippage)
@@ -50,19 +40,37 @@ Following attempts of Triangular Arbitrage were executed on Upbit:
 - [X] Adjust bid/ask price level (change sensitivity of order execution)
   - **Buy high and sell low --> arbitrage not detected**
 - [X] Double check if limit/market orders work in both directions
-- [X]  Cancel limit order if it's on hold for more than 20 units 
+- [X]  Cancel limit order if it's on hold for more than 20 units
+- [X]  Check quantity before executing arbitrage
+   - **OneWay : BTC-CODE, KRW-BTC**
+   - **OtherWay : BTC-CODE, KRW-CODE**
+- [X] Implement order reminders (More time to work on something else while testing)
 - [ ] Only monitor a high volume, volatile crypto currency (close analysis on trade)
-- [ ] Implement order reminders (More time to work on something else while testing)
-
+- [ ] Add Telegram API
+</br>
 
 ## Greatest Challenge
-### order speed & order profit tradeoff
-For faster limit order fills, buy/sell orders were implemented at ask/bid prices respectively. 
-However, the since we are buying high and selling low, arbitrage opportunities are not detected.
 
-Since the only illiquid market is BTC_CODE, we could buy/sell at ask/bid and try buy/sell orders at bid/sell on KRW_CODE and KRW_BTC 
-for spotting arbitrage opporunities.
-Problem with this is that we are able to find the opportunities, but it's not guaranteed that order would be filled in volatile markets.
+### Profitable Order Guarantee & Arbitrage Opportunity Tradeoff
+
+The relation betweeen profitable order guarantee and order speed is inversely proportional.</br>
+Increasing guaranteed profitable orders decreases arbitrage opportunities, while increasing order speed has the opposite effect. </br>
+This occurs because attempting to buy high and sell low reduces the arbitrage gap while ensuring order fills.</br>
+
+Let's take the execution of **oneway()** at different levels for reference:
+
+**Level 1 (Market Order):**
+Orders are placed at market prices, offering ask prices when buying and bid prices when selling for instant orders. This leads to buying high, selling low, and then selling low again, resulting in slippage and a guaranteed losing triangular arbitrage trade.
+
+**Level 2 (BUY low, SELL high):**
+While seemingly ideal for maximizing arbitrage opportunities at exact price levels, there's no guarantee of orders being filled. Orders may remain unfilled, and even if filled, there's no assurance of subsequent orders being filled. In practice, it's nearly impossible for all orders to be filled as desired.
+
+**Level 3 (BUY high, SELL low):**
+Orders are placed when buyers and sellers exist at the desired price, almost guaranteeing execution. However, it becomes challenging to profit from small arbitrage opportunities.
+
+This concise overview highlights the tradeoff between ensuring profitable orders and maximizing arbitrage opportunities. For more information, please refer to my notes.
+
+### Inherently illiquid BTC pair market
 
 **Solution :**  </br>
 - [ ] Try buy/sell orders at bid/ask price on KRW_CODE and KRW_BTC on liquid market and  buy/sell at ask/bid price for faster execution
