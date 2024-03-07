@@ -3,6 +3,7 @@ import time
 import keyboard
 
 
+### BETA CODE with single API call
 # Triangular Arbitrage
 def upbit_triangular(code, krw):
     
