@@ -7,20 +7,14 @@ from .upbit_module import *
 
 # Cryptos supporting triangular arbitrage
 cryptos = [
-    "ETH", "MTL", "XRP", "ETC", "SNT", "WAVES", "XEM", "QTUM", "LSK", "STEEM",
-    "XLM", "ARDR", "ARK", "STORJ", "GRS", "ADA", "SBD", "POWR", "EOS", "TRX",
-    "SC", "ZIL", "POLYX", "ZRX", "LOOM", "BCH", "BAT", "IOST", "CVC", "IQ",
-    "HIFI", "UPP", "ELF", "BSV", "MOC", "MANA", "ANKR", "AERGO", "ATOM", "WAXP",
-    "MED", "MLK", "STPT", "ORBS", "VET", "CHZ", "STMX", "DKA", "HIVE", "KAVA",
-    "AHT", "LINK", "XTZ", "BORA", "JST", "CRO", "TON", "SXP", "HUNT", "PDA",
-    "DOT", "MVL", "STRAX", "AQT", "GLM", "SSX", "META", "FCT2", "CBK", "SAND",
-    "HPO", "DOGE", "STRIKE", "PUNDIX", "FLOW", "AXS", "STX", "SOL", "MATIC",
-    "AAVE", "1INCH", "ALGO", "NEAR", "AVAX", "T", "CELO", "GMT", "APT", "MASK",
-    "ARB", "EGLD", "SUI", "GRT", "BLUR", "IMX", "SEI", "MINA", "CTC", "ASTR",
-    "ID", "PYTH"
+    '1INCH', 'AAVE', 'ADA', 'AERGO', 'AHT', 'ALGO', 'ANKR', 'APT', 'AQT', 'ARB', 'ARDR', 'ARK', 'ASTR', 'ATOM', 
+    'AVAX', 'AXS', 'BAT', 'BCH', 'BLUR', 'BORA', 'BSV', 'CBK', 'CELO', 'CHZ', 'CRO', 'CTC', 'CVC', 'DKA', 'DOGE', 
+    'DOT', 'EGLD', 'ELF', 'EOS', 'ETC', 'ETH', 'FCT2', 'FLOW', 'GLM', 'GMT', 'GRS', 'GRT', 'HIFI', 'HIVE', 'HPO', 
+    'HUNT', 'ID', 'IMX', 'IOST', 'IQ', 'JST', 'KAVA', 'LINK', 'LOOM', 'LSK', 'MANA', 'MASK', 'MATIC', 'MED', 'META', 
+    'MINA', 'MLK', 'MOC', 'MTL', 'MVL', 'NEAR', 'ORBS', 'PDA', 'POLYX', 'POWR', 'PUNDIX', 'PYTH', 'QTUM', 'SAND', 'SBD', 
+    'SC', 'SEI', 'SNT', 'SOL', 'SSX', 'STEEM', 'STMX', 'STORJ', 'STPT', 'STRAX', 'STRIKE', 'STX', 'SUI', 'SXP', 'T', 
+    'TON', 'TRX', 'UPP', 'VET', 'WAVES', 'WAXP', 'XEM', 'XLM', 'XRP', 'XTZ', 'ZIL', 'ZRX'
 ]
-
-
 
 # Directions
 def oneway_market(symbol,KRW):
@@ -61,23 +55,21 @@ def otherway_limit(symbol, KRW_CODE, BTC_CODE, KRW_BTC, KRW):
     upbit_limit_buy(f"BTC-{symbol}", BTC_CODE, CODE_QTY)
     upbit_limit_sell(f"KRW-{symbol}", KRW_CODE, CODE_QTY)
 
-def other_way(symbol, KRW_CODE="", BTC_CODE="", KRW_BTC="",order_type="limit"):
-    KRW = krw_balance()
+def other_way(symbol,krw, KRW_CODE="", BTC_CODE="", KRW_BTC="",order_type="limit"):
     try:
         if order_type == "market":
-            otherway_market(symbol,KRW)
+            otherway_market(symbol,krw)
         elif order_type == "limit":
-            otherway_limit(symbol, KRW_CODE, BTC_CODE, KRW_BTC, KRW)
+            otherway_limit(symbol, KRW_CODE, BTC_CODE, KRW_BTC, krw)
     except:
         pass
 
 
 #  Looking for Arbitrage opportunities :D
 def get_orderbook_prices():
-    url = f"https://api.upbit.com/v1/orderbook?markets=KRW-BTC,KRW-ETH,BTC-ETH,KRW-MTL,BTC-MTL,KRW-XRP,BTC-XRP,KRW-ETC,BTC-ETC,KRW-SNT,BTC-SNT,KRW-WAVES,BTC-WAVES,KRW-XEM,BTC-XEM,KRW-QTUM,BTC-QTUM,KRW-LSK,BTC-LSK,KRW-STEEM,BTC-STEEM,KRW-XLM,BTC-XLM,KRW-ARDR,BTC-ARDR,KRW-ARK,BTC-ARK,KRW-STORJ,BTC-STORJ,KRW-GRS,BTC-GRS,KRW-ADA,BTC-ADA,KRW-SBD,BTC-SBD,KRW-POWR,BTC-POWR,KRW-EOS,BTC-EOS,KRW-TRX,BTC-TRX,KRW-SC,BTC-SC,KRW-ZIL,BTC-ZIL,KRW-POLYX,BTC-POLYX,KRW-ZRX,BTC-ZRX,KRW-LOOM,BTC-LOOM,KRW-BCH,BTC-BCH,KRW-BAT,BTC-BAT,KRW-IOST,BTC-IOST,KRW-CVC,BTC-CVC,KRW-IQ,BTC-IQ,KRW-HIFI,BTC-HIFI,KRW-UPP,BTC-UPP,KRW-ELF,BTC-ELF,KRW-BSV,BTC-BSV,KRW-MOC,BTC-MOC,KRW-MANA,BTC-MANA,KRW-ANKR,BTC-ANKR,KRW-AERGO,BTC-AERGO,KRW-ATOM,BTC-ATOM,KRW-WAXP,BTC-WAXP,KRW-MED,BTC-MED,KRW-MLK,BTC-MLK,KRW-STPT,BTC-STPT,KRW-ORBS,BTC-ORBS,KRW-VET,BTC-VET,KRW-CHZ,BTC-CHZ,KRW-STMX,BTC-STMX,KRW-DKA,BTC-DKA,KRW-HIVE,BTC-HIVE,KRW-KAVA,BTC-KAVA,KRW-AHT,BTC-AHT,KRW-LINK,BTC-LINK,KRW-XTZ,BTC-XTZ,KRW-BORA,BTC-BORA,KRW-JST,BTC-JST,KRW-CRO,BTC-CRO,KRW-TON,BTC-TON,KRW-SXP,BTC-SXP,KRW-HUNT,BTC-HUNT,KRW-PDA,BTC-PDA,KRW-DOT,BTC-DOT,KRW-MVL,BTC-MVL,KRW-STRAX,BTC-STRAX,KRW-AQT,BTC-AQT,KRW-GLM,BTC-GLM,KRW-SSX,BTC-SSX,KRW-META,BTC-META,KRW-FCT2,BTC-FCT2,KRW-CBK,BTC-CBK,KRW-SAND,BTC-SAND,KRW-HPO,BTC-HPO,KRW-DOGE,BTC-DOGE,KRW-STRIKE,BTC-STRIKE,KRW-PUNDIX,BTC-PUNDIX,KRW-FLOW,BTC-FLOW,KRW-AXS,BTC-AXS,KRW-STX,BTC-STX,KRW-SOL,BTC-SOL,KRW-MATIC,BTC-MATIC,KRW-AAVE,BTC-AAVE,KRW-1INCH,BTC-1INCH,KRW-ALGO,BTC-ALGO,KRW-NEAR,BTC-NEAR,KRW-AVAX,BTC-AVAX,KRW-T,BTC-T,KRW-CELO,BTC-CELO,KRW-GMT,BTC-GMT,KRW-APT,BTC-APT,KRW-MASK,BTC-MASK,KRW-ARB,BTC-ARB,KRW-EGLD,BTC-EGLD,KRW-SUI,BTC-SUI,KRW-GRT,BTC-GRT,KRW-BLUR,BTC-BLUR,KRW-IMX,BTC-IMX,KRW-SEI,BTC-SEI,KRW-MINA,BTC-MINA,KRW-CTC,BTC-CTC,KRW-ASTR,BTC-ASTR,KRW-ID,BTC-ID,KRW-PYTH,BTC-PYTH"
+    url = "https://api.upbit.com/v1/orderbook?markets=KRW-BTC,KRW-1INCH,BTC-1INCH,KRW-AAVE,BTC-AAVE,KRW-ADA,BTC-ADA,KRW-AERGO,BTC-AERGO,KRW-AHT,BTC-AHT,KRW-ALGO,BTC-ALGO,KRW-ANKR,BTC-ANKR,KRW-APT,BTC-APT,KRW-AQT,BTC-AQT,KRW-ARB,BTC-ARB,KRW-ARDR,BTC-ARDR,KRW-ARK,BTC-ARK,KRW-ASTR,BTC-ASTR,KRW-ATOM,BTC-ATOM,KRW-AVAX,BTC-AVAX,KRW-AXS,BTC-AXS,KRW-BAT,BTC-BAT,KRW-BCH,BTC-BCH,KRW-BLUR,BTC-BLUR,KRW-BORA,BTC-BORA,KRW-BSV,BTC-BSV,KRW-CBK,BTC-CBK,KRW-CELO,BTC-CELO,KRW-CHZ,BTC-CHZ,KRW-CRO,BTC-CRO,KRW-CTC,BTC-CTC,KRW-CVC,BTC-CVC,KRW-DKA,BTC-DKA,KRW-DOGE,BTC-DOGE,KRW-DOT,BTC-DOT,KRW-EGLD,BTC-EGLD,KRW-ELF,BTC-ELF,KRW-EOS,BTC-EOS,KRW-ETC,BTC-ETC,KRW-ETH,BTC-ETH,KRW-FCT2,BTC-FCT2,KRW-FLOW,BTC-FLOW,KRW-GLM,BTC-GLM,KRW-GMT,BTC-GMT,KRW-GRS,BTC-GRS,KRW-GRT,BTC-GRT,KRW-HIFI,BTC-HIFI,KRW-HIVE,BTC-HIVE,KRW-HPO,BTC-HPO,KRW-HUNT,BTC-HUNT,KRW-ID,BTC-ID,KRW-IMX,BTC-IMX,KRW-IOST,BTC-IOST,KRW-IQ,BTC-IQ,KRW-JST,BTC-JST,KRW-KAVA,BTC-KAVA,KRW-LINK,BTC-LINK,KRW-LOOM,BTC-LOOM,KRW-LSK,BTC-LSK,KRW-MANA,BTC-MANA,KRW-MASK,BTC-MASK,KRW-MATIC,BTC-MATIC,KRW-MED,BTC-MED,KRW-META,BTC-META,KRW-MINA,BTC-MINA,KRW-MLK,BTC-MLK,KRW-MOC,BTC-MOC,KRW-MTL,BTC-MTL,KRW-MVL,BTC-MVL,KRW-NEAR,BTC-NEAR,KRW-ORBS,BTC-ORBS,KRW-PDA,BTC-PDA,KRW-POLYX,BTC-POLYX,KRW-POWR,BTC-POWR,KRW-PUNDIX,BTC-PUNDIX,KRW-PYTH,BTC-PYTH,KRW-QTUM,BTC-QTUM,KRW-SAND,BTC-SAND,KRW-SBD,BTC-SBD,KRW-SC,BTC-SC,KRW-SEI,BTC-SEI,KRW-SNT,BTC-SNT,KRW-SOL,BTC-SOL,KRW-SSX,BTC-SSX,KRW-STEEM,BTC-STEEM,KRW-STMX,BTC-STMX,KRW-STORJ,BTC-STORJ,KRW-STPT,BTC-STPT,KRW-STRAX,BTC-STRAX,KRW-STRIKE,BTC-STRIKE,KRW-STX,BTC-STX,KRW-SUI,BTC-SUI,KRW-SXP,BTC-SXP,KRW-T,BTC-T,KRW-TON,BTC-TON,KRW-TRX,BTC-TRX,KRW-UPP,BTC-UPP,KRW-VET,BTC-VET,KRW-WAVES,BTC-WAVES,KRW-WAXP,BTC-WAXP,KRW-XEM,BTC-XEM,KRW-XLM,BTC-XLM,KRW-XRP,BTC-XRP,KRW-XTZ,BTC-XTZ,KRW-ZIL,BTC-ZIL,KRW-ZRX,BTC-ZRX"
     response = requests.get(url)
     data = response.json()
-
 
     orderbook = {}
 
@@ -102,29 +94,27 @@ def get_orderbook_prices():
         orderbook[f"BTC_{crypto}_BIDSIZE"]  = data[i]["orderbook_units"][0]["bid_size"]
         i+=1
     
-
-
     return orderbook
 
-def print_oneway(code, orderbook, NEW_KRW_CODE, oneway_qty):
+def print_oneway(crypto, orderbook, NEW_KRW_CODE, oneway_qty):
     print("one_way")
-    print(f"KRW-{code} ==> BTC-{code} ==> KRW-BTC")
-    oneway_profit = round((NEW_KRW_CODE - orderbook[f"KRW_{code}_ASK"]) / orderbook[f"KRW_{code}_ASK"] * 100, 3)
+    print(f"KRW-{crypto} ==> BTC-{crypto} ==> KRW-BTC")
+    oneway_profit = round((NEW_KRW_CODE - orderbook[f"KRW_{crypto}_ASK"]) / orderbook[f"KRW_{crypto}_ASK"] * 100, 3)
     if oneway_profit > 0:
-        print(f"{orderbook[f"KRW_{code}_ASK"]} ==> {NEW_KRW_CODE} (+{oneway_profit}%)")
+        print(f"{orderbook[f"KRW_{crypto}_ASK"]} ==> {NEW_KRW_CODE} (+{oneway_profit}%)")
     else:
-        print(f"{orderbook[f"KRW_{code}_ASK"]} ==> {NEW_KRW_CODE} ({oneway_profit}%)")
+        print(f"{orderbook[f"KRW_{crypto}_ASK"]} ==> {NEW_KRW_CODE} ({oneway_profit}%)")
 
-    print(f"KRW_{code} qty : { orderbook[f"KRW_{code}_ASKSIZE"]} >= {oneway_qty[f"{code}_qty"]} ({orderbook[f"KRW_{code}_ASKSIZE"] >= oneway_qty[f"{code}_qty"]})")
-    print(f"BTC_{code} qty : { orderbook[f"BTC_{code}_BIDSIZE"]} >= {oneway_qty[f"{code}_qty"]} ({orderbook[f"BTC_{code}_BIDSIZE"] >= oneway_qty[f"{code}_qty"]})")
+    print(f"KRW_{crypto} qty : { orderbook[f"KRW_{crypto}_ASKSIZE"]} >= {oneway_qty[f"{crypto}_qty"]} ({orderbook[f"KRW_{crypto}_ASKSIZE"] >= oneway_qty[f"{crypto}_qty"]})")
+    print(f"BTC_{crypto} qty : { orderbook[f"BTC_{crypto}_BIDSIZE"]} >= {oneway_qty[f"{crypto}_qty"]} ({orderbook[f"BTC_{crypto}_BIDSIZE"] >= oneway_qty[f"{crypto}_qty"]})")
     print(f"KRW_BTC qty : {orderbook["KRW_BTC_BIDSIZE"]} >= {oneway_qty["btc_qty"]} ({orderbook["KRW_BTC_BIDSIZE"] >= oneway_qty["btc_qty"]})")
     print(f"profit : {oneway_profit} > 0.35 ({oneway_profit > 0.35})\n")
 
     return oneway_profit
 
-def print_otherway(code, orderbook, NEW_KRW_BTC, otherway_qty):
+def print_otherway(crypto, orderbook, NEW_KRW_BTC, otherway_qty):
     print("\nother_way")
-    print(f"KRW-BTC ==> BTC-{code} ==> KRW-{code}")
+    print(f"KRW-BTC ==> BTC-{crypto} ==> KRW-{crypto}")
     otherway_profit = round((NEW_KRW_BTC - orderbook["KRW_BTC_ASK"]) / orderbook["KRW_BTC_ASK"] * 100, 3)
     if otherway_profit > 0:
         print(f"{orderbook["KRW_BTC_ASK"]} ==> {NEW_KRW_BTC} (+{otherway_profit}%)")
@@ -132,8 +122,8 @@ def print_otherway(code, orderbook, NEW_KRW_BTC, otherway_qty):
         print(f"{orderbook["KRW_BTC_ASK"]} ==> {NEW_KRW_BTC} ({otherway_profit}%)")
 
     print(f"KRW_BTC qty : {orderbook["KRW_BTC_ASKSIZE"]} >= {otherway_qty["btc_qty"]} ({orderbook["KRW_BTC_ASKSIZE"] >= otherway_qty["btc_qty"]})")
-    print(f"BTC_{code} qty : {orderbook[f"BTC_{code}_ASKSIZE"]} > {otherway_qty[f"{code}_qty"]} ({orderbook[f"BTC_{code}_ASKSIZE"] > otherway_qty[f"{code}_qty"]})")
-    print(f"KRW_{code} qty : {orderbook[f"KRW_{code}_BIDSIZE"]} > {otherway_qty[f"{code}_qty"]} ({orderbook[f"KRW_{code}_BIDSIZE"] > otherway_qty[f"{code}_qty"]})")
+    print(f"BTC_{crypto} qty : {orderbook[f"BTC_{crypto}_ASKSIZE"]} > {otherway_qty[f"{crypto}_qty"]} ({orderbook[f"BTC_{crypto}_ASKSIZE"] > otherway_qty[f"{crypto}_qty"]})")
+    print(f"KRW_{crypto} qty : {orderbook[f"KRW_{crypto}_BIDSIZE"]} > {otherway_qty[f"{crypto}_qty"]} ({orderbook[f"KRW_{crypto}_BIDSIZE"] > otherway_qty[f"{crypto}_qty"]})")
     print(f"profit : {otherway_profit} > 0.35 ({otherway_profit > 0.35})\n")
 
     return otherway_profit
@@ -150,21 +140,20 @@ def print_triangular_arbitrage(orderbook, available_qty, new_prices):
 def execute_triangular_arbitrage(krw, orderbook, available_qty, new_prices, expected_profits):
     # Checking Oneway 
     for crypto in cryptos:
-        if (orderbook[f"KRW_{crypto}_BID"] < new_prices[f"NEW_KRW_{crypto}"]) and (orderbook[f"KRW_{crypto}_ASKSIZE"] >= available_qty["oneway"][f"{crypto}_qty"])  and (orderbook[f"BTC_{crypto}_BID"] * orderbook[f"BTC_{crypto}_BIDSIZE"] >= available_qty["oneway"]["btc_qty"]) and  (orderbook["KRW_BTC_BIDSIZE"] >= available_qty["oneway"]["btc_qty"]) and (expected_profits["oneway_profit"][crypto] > 0.35):
+        if (orderbook[f"KRW_{crypto}_ASK"] < new_prices[f"NEW_KRW_{crypto}"]) and (orderbook[f"KRW_{crypto}_ASKSIZE"] >= available_qty["oneway"][f"{crypto}_qty"])  and (orderbook[f"BTC_{crypto}_BIDSIZE"] >= available_qty["oneway"][f"{crypto}_qty"]) and  (orderbook["KRW_BTC_BIDSIZE"] >= available_qty["oneway"]["btc_qty"]) and (expected_profits["oneway_profit"][crypto] > 0.35):
             one_way(crypto, krw, orderbook[f"KRW_{crypto}_ASK"], orderbook[f"BTC_{crypto}_BID"], orderbook["KRW_BTC_BID"], "limit")
             notify("oneway order executed")
             print(f"@ ONEWAY ORDER EXECUTED : {crypto}")
-            return expected_profits["oneway_profit"]
+            return expected_profits["oneway_profit"][crypto]
     
-        # Checking Otherway
-        elif (orderbook["KRW_BTC_ASK"] < new_prices[f"NEW_KRW_BTC_{crypto}"]) and (orderbook[f"KRW_{crypto}_ASKSIZE"] >= available_qty["otherway"][f"{crypto}_qty"]) and (orderbook[f"BTC_{crypto}_ASKSIZE"] > available_qty["otherway"][f"{crypto}_qty"]) and (orderbook[f"KRW_{crypto}_BIDSIZE"] > available_qty["otherway"][f"{crypto}_qty"]) and (expected_profits["otherway_profit"][crypto] > 0.35):
-            other_way(crypto, orderbook[f"KRW_{crypto}_BID"], orderbook[f"BTC_{crypto}_ASK"], orderbook["KRW_BTC_ASK"], "limit")
-            notify("otherway order executed")
-            print(f"@ OTHERWAY ORDER EXECUTED : {crypto}")
-            return expected_profits["otherway_profit"]
+        # # Checking Otherway
+        # elif (orderbook["KRW_BTC_ASK"] < new_prices[f"NEW_KRW_BTC_{crypto}"]) and (orderbook[f"KRW_{crypto}_ASKSIZE"] >= available_qty["otherway"][f"{crypto}_qty"]) and (orderbook[f"BTC_{crypto}_ASKSIZE"] > available_qty["otherway"][f"{crypto}_qty"]) and (orderbook[f"KRW_{crypto}_BIDSIZE"] > available_qty["otherway"][f"{crypto}_qty"]) and (expected_profits["otherway_profit"][crypto] > 0.35):
+        #     other_way(crypto, krw, orderbook[f"KRW_{crypto}_BID"], orderbook[f"BTC_{crypto}_ASK"], orderbook["KRW_BTC_ASK"], "limit")
+        #     notify("otherway order executed")
+        #     print(f"@ OTHERWAY ORDER EXECUTED : {crypto}")
+        #     return expected_profits["otherway_profit"][crypto]
         
     return 0
-
 
 def get_available_qty(krw, orderbook):
     available_qty = {
@@ -172,12 +161,12 @@ def get_available_qty(krw, orderbook):
         "otherway": {}
     }
 
-    for crypto in cryptos:
-        available_qty["oneway"][f"{crypto}_qty"] = krw / orderbook[f"KRW_{crypto}_ASK"]
-        available_qty["otherway"][f"{crypto}_qty"] = (krw / orderbook["KRW_BTC_ASK"]) / orderbook[f"BTC_{crypto}_ASK"]
-
-    available_qty["oneway"]["btc_qty"] = available_qty["oneway"][f"{crypto}_qty"] * orderbook[f"BTC_{crypto}_BID"]
     available_qty["otherway"]["btc_qty"] = krw / orderbook["KRW_BTC_ASK"]
+
+    for crypto in cryptos:
+        available_qty["oneway"][f"{crypto}_qty"] = krw / orderbook[f"KRW_{crypto}_ASK"] 
+        available_qty["oneway"]["btc_qty"] = available_qty["oneway"][f"{crypto}_qty"] * orderbook[f"BTC_{crypto}_BID"]
+        available_qty["otherway"][f"{crypto}_qty"] = available_qty["otherway"]["btc_qty"] / orderbook[f"BTC_{crypto}_ASK"] #  crypto = btc * (crypto/btc) 
 
     return available_qty
 
@@ -186,8 +175,8 @@ def get_new_prices(orderbook):
     new_prices = {}
     
     for crypto in cryptos:
-        new_prices[f"NEW_KRW_{crypto}"] = round(orderbook[f"BTC_{crypto}_BID"] * orderbook["KRW_BTC_BID"],2)
-        new_prices[f"NEW_KRW_BTC_{crypto}"] = round(orderbook[f"KRW_{crypto}_BID"] / orderbook[f"BTC_{crypto}_ASK"],2)
+        new_prices[f"NEW_KRW_{crypto}"] = orderbook[f"BTC_{crypto}_BID"] * orderbook["KRW_BTC_BID"]
+        new_prices[f"NEW_KRW_BTC_{crypto}"] = orderbook[f"KRW_{crypto}_BID"] / orderbook[f"BTC_{crypto}_ASK"]
 
     return new_prices
 

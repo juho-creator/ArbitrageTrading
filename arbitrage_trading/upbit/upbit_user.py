@@ -208,7 +208,7 @@ def upbit_limit_buy(symbol, price, volume):
             if wait == 1:
                 notify("Entering cancel countdown")
 
-            if wait == 20:
+            if wait == 60:
                 cancel_result = upbit.cancel_order(order_id)
                 print(cancel_result)
                 sys.exit()
@@ -234,7 +234,7 @@ def upbit_limit_sell(symbol, price, volume):
             if wait == 1:
                 notify("Entering cancel countdown")
                 
-            if wait == 20:
+            if wait == 60:
                 cancel_result = upbit.cancel_order(order_id)
                 print(cancel_result)
                 sys.exit()
