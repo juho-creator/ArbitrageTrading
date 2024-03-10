@@ -48,7 +48,7 @@ def display_triangular_data():
 
 if __name__  == "__main__":
     display_triangular_data()
-
+t
 
 print("--- %s seconds ---" % (time.time() - start_time))
 notify("done done done done check the url homie! ha!")
