@@ -34,7 +34,6 @@ def generate_triangular_url(available_cryptos):
         print(f"Error generating triangular URL: {e}")
         return ""
 
-start_time = time.time()
 
 # List of available cryptocurrencies
 def display_triangular_data():
@@ -47,8 +46,16 @@ def display_triangular_data():
     return available_cryptos, url
 
 if __name__  == "__main__":
-    display_triangular_data()
-t
+    # start_time = time.time()
 
-print("--- %s seconds ---" % (time.time() - start_time))
-notify("done done done done check the url homie! ha!")
+    # display_triangular_data()
+
+    # print("--- %s seconds ---" % (time.time() - start_time))
+    # notify("done done done done check the url homie! ha!")
+
+
+
+
+
+
+    print(len(cryptos))

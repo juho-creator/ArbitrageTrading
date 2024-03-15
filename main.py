@@ -1,6 +1,5 @@
 from arbitrage_trading import *
 import time
-import keyboard
 
 
 ### BETA CODE with single API call
@@ -13,17 +12,18 @@ def upbit_triangular(krw):
 
     if available_btc_qty >= 0.0005:
 
-        # 2. Compute available order quantity with current balance
-        available_qty = get_available_qty(krw, orderbook)
+        for crypto in cryptos:
+            # 2. Compute available order quantity with current balance
+            available_qty = get_available_qty(crypto, krw, orderbook)
 
-        # Get new price
-        new_prices = get_new_prices(orderbook)
-        
-        # 3. Print triangular Arbitrage status
-        expected_profits = print_triangular_arbitrage(orderbook, available_qty, new_prices)
+            # 3. Get new price
+            new_prices = get_new_prices(crypto, orderbook)
+            
+            # 4. Print triangular Arbitrage status
+            expected_profits = get_expected_profit(crypto, orderbook, new_prices)
 
-        # 4. Execute orders
-        profit = execute_triangular_arbitrage(krw, orderbook, available_qty, new_prices, expected_profits)
+            # 5. Execute orders
+            execute_triangular_arbitrage(crypto, krw, orderbook, available_qty, new_prices, expected_profits)
 
         # # 5. Calculate Balance after trading
         # current_balance = balance_after_arbitrage(krw, profit)
@@ -36,20 +36,17 @@ def upbit_triangular(krw):
     # notify(f"Balance after trading :  ₩{current_balance}")
 
 
-krw = 49000
+krw = 55000
 
-# Set the duration to run the function (in seconds)
-duration = 20 * 60  # 5 minutes
+#  Set the duration to run the function (in seconds)
+duration = 10 * 60  # 5 minutes
 
-# Get the current time
 start_time = time.time()
 
-
 # Run the function for the specified duration
-while time.time() - start_time < duration:
-    start_time1= time.time()
-    
+while(time.time() - start_time < duration): 
+    test_start = time.time()
     upbit_triangular(krw)
-    print("--- %s seconds ---" % (time.time() - start_time1))
-
+    test_end = time.time()
+    print("--- %s seconds ---" % (test_end - test_start))
 

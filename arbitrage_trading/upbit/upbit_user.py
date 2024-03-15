@@ -10,129 +10,19 @@ import sys
 from ..binance.binance_user import BinanceAddress
 from .upbit_module import notify
 
-UPBIT_TICKERS = [
-    "BTC",
-    "ETH",
-    "NEO",
-    "MTL",
-    "XRP",
-    "ETC",
-    "SNT",
-    "WAVES",
-    "XEM",
-    "QTUM",
-    "LSK",
-    "STEEM",
-    "XLM",
-    "ARDR",
-    "ARK",
-    "STORJ",
-    "GRS",
-    "ADA",
-    "SBD",
-    "POWR",
-    "BTG",
-    "ICX",
-    "EOS",
-    "TRX",
-    "SC",
-    "ONT",
-    "ZIL",
-    "POLYX",
-    "ZRX",
-    "LOOM",
-    "BCH",
-    "BAT",
-    "IOST",
-    "CVC",
-    "IQ",
-    "IOTA",
-    "HIFI",
-    "ONG",
-    "GAS",
-    "UPP",
-    "ELF",
-    "KNC",
-    "BSV",
-    "THETA",
-    "QKC",
-    "BTT",
-    "MOC",
-    "TFUEL",
-    "MANA",
-    "ANKR",
-    "AERGO",
-    "ATOM",
-    "TT",
-    "CRE",
-    "MBL",
-    "WAXP",
-    "HBAR",
-    "MED",
-    "MLK",
-    "STPT",
-    "ORBS",
-    "VET",
-    "CHZ",
-    "STMX",
-    "DKA",
-    "HIVE",
-    "KAVA",
-    "AHT",
-    "LINK",
-    "XTZ",
-    "BORA",
-    "JST",
-    "CRO",
-    "TON",
-    "SXP",
-    "HUNT",
-    "PLA",
-    "DOT",
-    "MVL",
-    "STRAX",
-    "AQT",
-    "GLM",
-    "SSX",
-    "META",
-    "FCT2",
-    "CBK",
-    "SAND",
-    "HPO",
-    "DOGE",
-    "STRK",
-    "PUNDIX",
-    "FLOW",
-    "AXS",
-    "STX",
-    "XEC",
-    "SOL",
-    "MATIC",
-    "AAVE",
-    "1INCH",
-    "ALGO",
-    "NEAR",
-    "AVAX",
-    "T",
-    "CELO",
-    "GMT",
-    "APT",
-    "SHIB",
-    "MASK",
-    "ARB",
-    "EGLD",
-    "SUI",
-    "GRT",
-    "BLUR",
-    "IMX",
-    "SEI",
-    "MINA",
-    "CTC",
-    "ASTR",
-]
-
 # API Authentication 
 upbit = pyupbit.Upbit(ACCESS_KEY,SECRET_KEY)
+
+
+
+def clear_crypto():
+    for crypto in upbit.get_balances():
+        if crypto['currency'] !=  'KRW':
+            try:
+                upbit.sell_market_order(f"KRW-{crypto['currency']}", crypto['balance'])
+            except:
+                pass
+
 
 
 # Checking Balance
@@ -196,25 +86,27 @@ def upbit_sell(symbol, volume):
 
 def upbit_limit_buy(symbol, price, volume):
     try:
-        print(f"\nBuying {symbol} at UPBIT")
+        # print(f"\nBuying {symbol} at UPBIT")
         upbit_buy = upbit.buy_limit_order(f"{symbol}", price, volume)
-        print(upbit_buy)  # 주문내역
-        order_id = upbit_buy["uuid"]  # 주문번호 저장
-        order_state = upbit.get_individual_order(order_id)["state"]
+
+        # print(upbit_buy)  # 주문내역
+        # order_id = upbit_buy["uuid"]  # 주문번호 저장
+        # order_state = upbit.get_individual_order(order_id)["state"]
         
         # Wait until order is filled
-        wait = 1
-        while order_state not in ["cancel", "done"]:
-            if wait == 1:
-                notify("Entering cancel countdown")
+        # wait = 1
+        # while order_state not in ["cancel", "done"]:
+        #     if wait == 1:
+        #         notify("Entering cancel countdown")
 
-            if wait == 60:
-                cancel_result = upbit.cancel_order(order_id)
-                print(cancel_result)
-                sys.exit()
-            print(f"Limit Buy Order Taking place... {wait}")
-            order_state = upbit.get_individual_order(order_id)["state"]
-            wait += 1
+        #     if wait == 2:
+        #         cancel_result = upbit.cancel_order(order_id)
+        #         # print(cancel_result)
+        #         sys.exit()
+        #     # print(f"Limit Buy Order Taking place... {wait}")
+        #     order_state = upbit.get_individual_order(order_id)["state"]
+        #     wait += 1
+        
         return float(upbit_buy["volume"])
     except Exception as e:
         print(f"Unable to buy {symbol} (Upbit)")
@@ -222,30 +114,36 @@ def upbit_limit_buy(symbol, price, volume):
 
 def upbit_limit_sell(symbol, price, volume):
     try:
-        print(f"Selling {symbol} at UPBIT")
+        # print(f"Selling {symbol} at UPBIT")
         upbit_sell = upbit.sell_limit_order(f"{symbol}", price, volume)
-        print(upbit_sell)
-        order_id = upbit_sell["uuid"]  # 주문번호 저장
-        order_state = upbit.get_individual_order(order_id)["state"]
+
+        # print(upbit_sell)
+        # order_id = upbit_sell["uuid"]  # 주문번호 저장
+        # order_state = upbit.get_individual_order(order_id)["state"]
 
         # Wait until order is filled
-        wait = 1
-        while order_state not in ["cancel", "done"]:
-            if wait == 1:
-                notify("Entering cancel countdown")
+        # wait = 1
+        # while order_state not in ["cancel", "done"]:
+        #     if wait == 1:
+        #         notify("Entering cancel countdown")
                 
-            if wait == 60:
-                cancel_result = upbit.cancel_order(order_id)
-                print(cancel_result)
-                sys.exit()
-            print(f"Limit Sell Order Taking place... {wait}")
-            order_state = upbit.get_individual_order(order_id)["state"]
-            wait += 1
+        #     if wait == 2:
+        #         cancel_result = upbit.cancel_order(order_id)   
+        #         clear_crypto()                
+
+        #         # print(cancel_result)
+        #         sys.exit()
+        #     # print(f"Limit Sell Order Taking place... {wait}")
+        #     order_state = upbit.get_individual_order(order_id)["state"]
+        #     wait += 1
+      
         return float(upbit_sell["volume"])
 
     except Exception as e:
         print(f"Unable to sell {symbol} (Upbit)")
         print(e)
+
+
 
 
 # Withdraw/Deposit
