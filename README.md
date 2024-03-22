@@ -1,29 +1,68 @@
-[![English](https://img.shields.io/badge/lang-English-blue.svg)](https://github.com/juho-creator/ArbitrageTrading/blob/main/README.md)
-[![한국어](https://img.shields.io/badge/lang-한국어-red.svg)](https://github.com/juho-creator/ArbitrageTrading/blob/main/README.KR.md)
+[![English](https://img.shields.io/badge/lang-English-blue.svg)](https://github.com/juho-creator/triangular_arbitrage/blob/main/README.md)
+[![한국어](https://img.shields.io/badge/lang-한국어-red.svg)](https://github.com/juho-creator/triangular_arbitrage/blob/main/README.KR.md)
 
-# Triangular Arbitrage trading 
- > [!CAUTION]  
->**This is a study soley performed on Upbit exchange until 21st Feburary 2024. </br>
-Conditions that may appear on other exchanges is not reflected in this README. </br>
-ANY CONTENT IS SUBJECT TO CHANGE AFTER UPDATE**
+# Triangular Arbitrage Trading
+
+> [!CAUTION]  
+> **This study focuses solely on the Upbit exchange until February 21st, 2024 </br>
+>  Conditions on other exchanges are not considered</br>
+> CONTENT IS SUBJECT TO CHANGE AFTER UPDATES**
 
 > [!NOTE]
->**Code is not shared as it's still under development**
-</br></br>
+> **Code is not shared as it's still under development.**
 
-![image](https://github.com/juho-creator/ArbitrageTrading/assets/72856990/a9c56335-69fd-4df9-9e00-2a9b42946890)
+![306502733-a9c56335-69fd-4df9-9e00-2a9b42946890](https://github.com/juho-creator/triangular_arbitrage/assets/72856990/cfe964f7-e0d6-404d-8cfa-3409926ee38f)
 
-- Triangular Arbitrage trading seeks to profit by taking arbitrage opportunities among different crypto pairs. </br>
-- Trading can take place in both clockwise and anticlockwise direction depending on the available arbitrage opportunity as shown on the diagram above.
-- There are 2 types of crypto market at Upbit Exchange. (BTC and KRW)
-- Out of 119 cryptos registered in the Upbit exchange, only 98 support BTC market. 
+
+- Triangular Arbitrage trading aims to profit from arbitrage opportunities among different crypto pair markets
+- Trading can occur clockwise or anticlockwise depending on the available arbitrage opportunities
+- Upbit Exchange offers two types of crypto markets: BTC and KRW
+- Out of 119 cryptos registered on Upbit, only 98 support the BTC market
 
 
 </br>
 
+
+## Greatest Challenge
+> [!NOTE]
+> **This section highlights the challenges encountered when executing triangular arbitrage trading. </br>
+> For more detailed information, please refer to the accompanying [notes](https://github.com/juho-creator/triangular_arbitrage/blob/main/triangular_arbitrage.pdf).**
+
+
+### Trading Levels
+Trading levels categorize orders based on their complexity, with Level 3 representing the most intricate orders. </br>
+Profit and execution speed vary depending on the trading level. 
+Let's examine the execution of the **oneway()** function at each trading level:
+</br></br>
+
+#### &nbsp; Level 1 (Market Order) 
+ Three **instant** market orders are executed at market prices, buying at ask prices and selling at bid prices for immediate execution. </br>
+ However, this often results in **slippage** (buying high, selling low), leading to a guaranteed loss.
+</br></br>
+
+#### &nbsp; Level 2 (BUY low, SELL high)
+At Level 2, limit orders are placed at bid/ask prices to seize arbitrage opportunities. However, there's no guarantee of fulfillment, leading to potential delays and missed opportunities within the trading loop.
+</br></br>
+
+#### &nbsp;Level 3 (BUY high, SELL low)
+Level 3 entails placing instant limit buy/sell orders at ask/bid prices. While this guarantees instant execution, it reduces arbitrage opportunities and makes profiting from small opportunities challenging.
+</br></br>
+
+Trading at Level 3 is considered optimal for profit, although identifying arbitrage opportunities surpassing transaction fees poses a challenge. Furthermore, market volatility may result in the disappearance of desired price levels, thereby complicating the process of exiting the trading loop.
+</br></br></br>
+
+
+### Inherently illiquid BTC pair market
+Due to lower trading activity compared to KRW pair markets, BTC pair markets exhibit extremely low trading volumes, resulting in significant spreads between bid and ask prices. This often leads to unfilled orders or slippage when placing orders in the BTC pair market. Paradoxically, this illiquidity also creates disparities between the spreads of KRW and BTC pair markets, [offering arbitrage opportunities](https://www.youtube.com/clip/UgkxjqQU0dMrhLZH7qmjGzrWW1lKQGeSzllp).</br>
+
+To ensure successful execution of Level 3 trading, available quantities at all three price levels must exceed our trading balance. However, spotting arbitrage opportunities that outweigh transaction fees at price levels with sufficient volumes becomes increasingly challenging. Nevertheless, such detection significantly enhances the probability of successful trading.
+</br>
+</br>
+
+
 ## Current Progress 
-Due to illiquid market, I faced several issues on placing orders. </br>
-Following are attempts that were/to be made to improve the algorithm along with the issues that arose after development : 
+Due to market illiquidity, various challenges arose while placing orders. Here's a summary of the efforts made to improve the algorithm and the encountered issues during development:
+
 - [x] Create Market Orders (create fast orders)
    - **slippage**
 - [X] Create Limit Order (prevent slippage)
@@ -45,98 +84,11 @@ Following are attempts that were/to be made to improve the algorithm along with 
    - **OneWay : BTC-CODE, KRW-BTC**
    - **OtherWay : BTC-CODE, KRW-CODE**
 - [X] Implement order reminders (More time to work on something else while testing)
+- [X] Cancel triangular arbitrage if first limit order takes more than 20seconds
 - [ ] Only monitor a high volume, volatile crypto currency (close analysis on trade)
 - [ ] Add Telegram API
-</br>
+</br></br>
 
-## Greatest Challenge
-
-### Profitable Order Guarantee & Arbitrage Opportunity Tradeoff
-
-The relation betweeen profitable order guarantee and order speed is inversely proportional.</br>
-Increasing guaranteed profitable orders decreases arbitrage opportunities, while increasing order speed has the opposite effect. </br>
-This occurs because attempting to buy high and sell low reduces the arbitrage gap while ensuring order fills.</br>
-
-Let's take the execution of **oneway()** at different levels for reference:
-
-**Level 1 (Market Order):**
-Orders are placed at market prices, offering ask prices when buying and bid prices when selling for instant orders. This leads to buying high, selling low, and then selling low again, resulting in slippage and a guaranteed losing triangular arbitrage trade.
-
-**Level 2 (BUY low, SELL high):**
-While seemingly ideal for maximizing arbitrage opportunities at exact price levels, there's no guarantee of orders being filled. Orders may remain unfilled, and even if filled, there's no assurance of subsequent orders being filled. In practice, it's nearly impossible for all orders to be filled as desired.
-
-**Level 3 (BUY high, SELL low):**
-Orders are placed when buyers and sellers exist at the desired price, almost guaranteeing execution. However, it becomes challenging to profit from small arbitrage opportunities.
-
-This concise overview highlights the tradeoff between ensuring profitable orders and maximizing arbitrage opportunities. For more information, please refer to my notes.
-
-### Inherently illiquid BTC pair market
-
-**Solution :**  </br>
-- [ ] Try buy/sell orders at bid/ask price on KRW_CODE and KRW_BTC on liquid market and  buy/sell at ask/bid price for faster execution
-- [ ]  KRW_CODE and KRW_BTC at market price
-- [ ] Less volatile crypto
-
-
-Unable to find/execute triangular arbitrage (ISSSUE WITH DEMAND & SUPPLY)
-- Too much gap between bid/ask of BTC_CODE market
-- Hence, BTC_CODE is. Bought/sold.at overprice/.underprice
-- Order price at BTC_CODE must be fixed to make quick entry/exits in illiquid market
-- Adjusting price levels for KRW_CODE & KRW_BTC helped identify arbitrage opportunities
-- However, the likelihood of the order taking place below 10 price levels is very unlikely
-- Even though I’m able to detect the arbitrage opportunity from the orderbook, it’s not executed because buyers and sellers are not coming to an agreement to my price
-- But if I were to change the logic to buy at ask price and sell at bid price (buy high, sell low) the order is guaranteed to be executed. However, it becomes increasingly difficult to find arbitrage opportunities
-
-
-
-Code update
- - Cancel triangular arbitrage if limit order takes more than 20seconds
-- Ran my code at .venv
-
-
-
-
-
-
-
-
-</br>
-Following attempts of Triangular Arbitrage were executed on Binance: 
-- [ ] 
-
-</br>
-Following attempts of Triangular Arbitrage were executed on Bithumb: 
-- [ ] 
-
-
-</br>
-Following attempts of spatial arbitrage were executed on Bithumb and Binance 
-- [ ] 
-
-
-
-
-
-
-
-# Life Goals 
-### After earning $100k
-- [ ] Hosting $10K family trip to a wonderful place for healing
-- [ ] Get new electronic devices
-- [ ] Buy new clothes
-</br> **RECREATE REPOSITORY WITH CODE ENCRYPTED WITH KLEOPATRA**
-</br>
-
-### After earning $1M
-- [ ] Living in suburban area
-- [ ] Starting a business with chong chong
-
-</br>
-
-### After earning $10M
-- [ ] Buying a house in California
-</br>
-</br>
 
 
 
@@ -148,31 +100,56 @@ Following attempts of spatial arbitrage were executed on Bithumb and Binance
   
 - **modules.py** : Functions used in Arbitrage Trading Algorithms
 - **bot.py** : Telegram API for UI
+</br>
+</br>
+
+## Using Chatgpt 
+</br>
+
+#### Setting Custom Instructions
+![image](https://github.com/juho-creator/triangular_arbitrage/assets/72856990/c99bd5b8-c105-4788-b685-a4f78360dd50)
+</br></br>
+
+
+The custom instruction above for GPT was set in advance to:
+- Provide concise responses with relevant information.
+- Avoid unnecessary details for clarity.
+</br>
+
 
 ## Reference
 **Code**
 - [Upbit API documentation](https://docs.upbit.com/reference/%EC%A0%84%EC%B2%B4-%EA%B3%84%EC%A2%8C-%EC%A1%B0%ED%9A%8C)
 - [pyupbit documentation](https://github.com/sharebook-kr/pyupbit?tab=readme-ov-file)
+- [Bithumb API documentation](https://apidocs.bithumb.com/reference/%ED%98%B8%EA%B0%80-%EC%A0%95%EB%B3%B4-%EC%A1%B0%ED%9A%8C)
 - [Binance API documentation](https://binance-docs.github.io/apidocs/spot/en/)
 - [CCXT API documentation](https://docs.ccxt.com)
--	 [Binance C++ API](https://github.com/binance-exchange/binacpp)
+-	[Binance C++ API](https://github.com/binance-exchange/binacpp)
 - [Use case of Telegram API](https://charliethewanderer.medium.com/scrape-news-and-corporate-announcements-in-real-time-2-deployment-27ae489f598a)
 - [Benchmarking in Python](https://www.youtube.com/watch?v=DBoobQxqiQw)
+</br>
+ 
   
 **Trading Concepts**
 - [Crypto Arbitrage Trade Guide](https://coincodecap.com/crypto-arbitrage-guide-how-to-make-money-as-a-beginner)
-- [김프거래 가이드](https://charlietrip.tistory.com/19)
-- 
+- [Arbitrage trading with Kimchi premium](https://charlietrip.tistory.com/19)
 - [Triangular Arbitrage](https://www.youtube.com/watch?v=lKu2LAgEcpU)
 - [Why Triangular Arbitrage Works](https://www.youtube.com/clip/UgkxjqQU0dMrhLZH7qmjGzrWW1lKQGeSzllp)
--
 - [What is Slippage?](https://www.youtube.com/watch?v=gaVYPGrxykw)
 - [Understanding Orderbooks](https://www.youtube.com/watch?v=Jxyuf-cDKeg)
 - [Who Decides the Prices of Stocks?](https://www.youtube.com/watch?v=HxNH7xi4zq8)
 - [Reading in Depth Chart](https://youtube.com/clip/Ugkx0c5M3OF96EjkuDo8IfXJGjiR6XCdZ8_f?si=jnnrMETCA_Mn0iLC)
+- [Trader's Mindset](https://www.youtube.com/clip/Ugkx2DdNUkPZUtbCsDDo0xmG4veFGHboxH49)
+</br>
 
 
 **Regulations**
-- [트래블룰](https://upbitcs.zendesk.com/hc/ko/articles/4498679629337-%ED%8A%B8%EB%9E%98%EB%B8%94%EB%A3%B0-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0)
-- [김프차익거래 불법인가?](https://youtube.com/shorts/YF3FK_4NOmM?si=ZgVCQ__LfEPyzb97)
+- [트래블룰이란?](https://upbitcs.zendesk.com/hc/ko/articles/4498679629337-%ED%8A%B8%EB%9E%98%EB%B8%94%EB%A3%B0-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0)
+- [Is kimchi premium illegal?](https://youtube.com/shorts/YF3FK_4NOmM?si=ZgVCQ__LfEPyzb97)
+</br>
+
+**Upbit Exchange**
+- [유의 종목과 주의 종목](https://upbitcs.zendesk.com/hc/ko/articles/900005994766-%EC%9C%A0%EC%9D%98-%EC%A2%85%EB%AA%A9%EA%B3%BC-%EC%A3%BC%EC%9D%98-%EC%A2%85%EB%AA%A9%EC%9D%B4-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80%EC%9A%94)
+- [거래 이용 안내](https://upbitcs.zendesk.com/hc/ko/articles/4403838454809-%EA%B1%B0%EB%9E%98-%EC%9D%B4%EC%9A%A9-%EC%95%88%EB%82%B4)
+
 
