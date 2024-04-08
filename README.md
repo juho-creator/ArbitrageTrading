@@ -19,7 +19,27 @@ ANY CONTENT IS SUBJECT TO CHANGE AFTER UPDATE**
 - Out of 119 cryptos registered in the Upbit exchange, only 98 support BTC market. 
 
 
-</br>
+</br></br>
+
+# Understanding the authentication process of UPBIT API
+### Creating the JWT token
+![image](https://github.com/juho-creator/ArbitrageTrading/assets/72856990/a6eed351-f526-4a01-ad82-fd63d1cff341)
+</br></br>
+
+### SHA512 vs SHA256
+![image](https://github.com/juho-creator/ArbitrageTrading/assets/72856990/3ef53251-8b98-4632-8f2e-963df54ca448)
+</br></br>
+
+
+### Base64URL vs Base64 encoding
+![image](https://github.com/juho-creator/ArbitrageTrading/assets/72856990/9171fffb-81d8-486f-b9d7-040f9576843b)
+</br></br>
+
+
+
+
+
+
 
 ## Current Progress 
 Due to illiquid market, I faced several issues on placing orders. </br>
@@ -135,6 +155,12 @@ Following attempts of spatial arbitrage were executed on Bithumb and Binance
 -	 [Binance C++ API](https://github.com/binance-exchange/binacpp)
 - [Use case of Telegram API](https://charliethewanderer.medium.com/scrape-news-and-corporate-announcements-in-real-time-2-deployment-27ae489f598a)
 - [Benchmarking in Python](https://www.youtube.com/watch?v=DBoobQxqiQw)
+
+**Technical concepts**
+- [Test SHA512](https://emn178.github.io/online-tools/sha512.html)
+- [Test SHA256](https://emn178.github.io/online-tools/sha256.html)
+- [Test Base64URL](https://base64.guru/standards/base64url/encode)
+- [Test Base64](https://www.base64encode.org/)
   
 **Trading Concepts**
 - [Crypto Arbitrage Trade Guide](https://coincodecap.com/crypto-arbitrage-guide-how-to-make-money-as-a-beginner)
