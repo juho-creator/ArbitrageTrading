@@ -35,7 +35,11 @@ ANY CONTENT IS SUBJECT TO CHANGE AFTER UPDATE**
 ![image](https://github.com/juho-creator/ArbitrageTrading/assets/72856990/9171fffb-81d8-486f-b9d7-040f9576843b)
 </br></br>
 
-
+### FOK vs IOC 
+![image](https://github.com/juho-creator/ArbitrageTrading/assets/72856990/1a64c1fd-b72a-4f6c-903b-9ce34891d648)
+</br>
+삼각차익거래엔 FOK를 활용해야 확실한 주문가능
+</br></br>
 
 
 
