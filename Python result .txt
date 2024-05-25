@@ -1,0 +1,15 @@
+Query String: 
+b'market=KRW-EOS&side=bid&ord_type=limit&price=1570.0&volume=10'
+Query Hash:  
+1092f5bd122968658874fca2ed34f59e9ec2b827d8fa02b2daffb304daf948a7924d3224429b2884d7243922fd6f3e78f8638589d4ebbbb0c7d3e2fc24768acf
+Payload:  
+{
+    'access_key': 'GuBVGr3yXP4TAHn0qvDAsVLG3qQ8lGux8NNE6bPM',
+    'nonce': '9b31af2a-60cd-427b-9888-1306c54087c2',
+    'query_hash': '1092f5bd122968658874fca2ed34f59e9ec2b827d8fa02b2daffb304daf948a7924d3224429b2884d7243922fd6f3e78f8638589d4ebbbb0c7d3e2fc24768acf',
+    'query_hash_alg': 'SHA512'
+}
+Headers:  
+{
+    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3Nfa2V5IjoiR3VCVkdyM3lYUDRUQUhuMHF2REFzVkxHM3FROGxHdXg4Tk5FNmJQTSIsIm5vbmNlIjoiOWIzMWFmMmEtNjBjZC00MjdiLTk4ODgtMTMwNmM1NDA4N2MyIiwicXVlcnlfaGFzaCI6IjEwOTJmNWJkMTIyOTY4NjU4ODc0ZmNhMmVkMzRmNTllOWVjMmI4MjdkOGZhMDJiMmRhZmZiMzA0ZGFmOTQ4YTc5MjRkMzIyNDQyOWIyODg0ZDcyNDM5MjJmZDZmM2U3OGY4NjM4NTg5ZDRlYmJiYjBjN2QzZTJmYzI0NzY4YWNmIiwicXVlcnlfaGFzaF9hbGciOiJTSEE1MTIifQ.pc7VgwP3wTFWom7zMORPG-NBkrxxHxR0b-KBisxNUc8'
+}
